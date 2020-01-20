@@ -34,9 +34,12 @@ Route::get('/profileprint', 'ProfilePrintController@show')->name('profileprint')
  * Route::get('/displayAll/{year}/{college}/{area}', 'displayAllController@show')->name('displayAll');
  */
 
-Route::get('/assignScholarships', 'assignScholarships@show')->name('assignScholarships');
+Route::get('/getScholarships', 'assignScholarshipsController@edit')->name('getScholarships');
+Route::post('/assignScholarships', 'assignScholarshipsController@update')->name('assignScholarships');
+
+
 Route::get('/amountDistro', 'amountDistroController@show')->name('amountDistro');
-Route::get('/displayStudentDetails', 'displayStudentDetails@show')->name('displayStudentDetails');
+Route::get('/displayStudentDetails', 'displayStudentDetailsController@show')->name('displayStudentDetails');
 Route::get('/displayAll', 'displayAllController@show')->name('displayAll');
 
 //https://stackoverflow.com/questions/34217120/how-to-pass-multiple-arguments-with-url-routing-in-laravel-5-1

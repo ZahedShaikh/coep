@@ -7,8 +7,8 @@
                 <div class="card-header">{{ ucfirst(config('multiauth.prefix')) }} Dashboard</div>
 
                 <div class="card-body">
-                    @include('multiauth::message')
                     You are logged in to {{ config('multiauth.prefix') }} side!
+                    @include('multiauth::message')
                 </div>
 
                 <ol class="list-group">
@@ -16,7 +16,7 @@
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <label for="assignScholarships" class="col-md-6 col-form-label text-md-right">{{ __('Assign Scholarships') }}</label>
-                            <a href="{{ route('assignScholarships') }}" class="btn btn-group-toggle btn-primary mr-3">Edit</a>
+                            <a href="{{ route('getScholarships') }}" class="btn btn-group-toggle btn-primary mr-3">Edit</a>
                         </li>
                     </div>
 

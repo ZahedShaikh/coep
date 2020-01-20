@@ -23,14 +23,18 @@ class ProfilePrintController extends Controller {
     }
 
     public function show(semesterMarks $semesterMarks) {
-        
+
         $marks = DB::table('semester_Marks')->where('id', Auth::user()->id)->first();
+        
+        if (!isset($marks)) {
+            return redirect(route('home'))->with('message', 'Please all details and your marks first');
+        }
 
         if ($marks->updated == 'yes') {
             $banks = DB::table('bank_details')->where('id', Auth::user()->id)->first();
             if ($banks->updated == 'yes') {
                 $info = DB::table('registerusers')->where('id', Auth::user()->id)->first();
-                return view('print.profile', compact('info','marks','banks'));
+                return view('print.profile', compact('info', 'marks', 'banks'));
             } else {
                 return redirect(route('home'))->with('message', 'Please update your Bank details');
             }

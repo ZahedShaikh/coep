@@ -28,7 +28,7 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="student_list" class="col-md-4 col-form-label text-md-right">{{ __('student_list') }}</label>
+                            <label for="student_list" class="col-md-4 col-form-label text-md-right">{{ __('Enter Students form No.') }}</label>
                             <div class="col-md-6">
                                 <input id="student_list" type="text" 
                                        class="form-control @error('student_list') is-invalid @enderror" name="student_list" 
