@@ -8,8 +8,8 @@
                 <div class="card-body">
                     @include('multiauth::message')
 
-                    
-                    
+
+
                     @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -33,19 +33,14 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-6 offset-md-8">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Assign') }}
                                 </button>
+                                <a href="javascript:history.back()" class="btn btn-primary">Back</a>
                             </div>
                         </div>
                     </form>
-
-
-                    <a href="javascript:history.back()" class="btn btn-primary">Back</a>
-
-
-
 
                 </div>
             </div>

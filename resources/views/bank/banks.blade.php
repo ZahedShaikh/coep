@@ -62,20 +62,16 @@
                             </div>
                         </div>
 
-
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-6 offset-md-8">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Update') }}
                                 </button>
+                                <a href="javascript:history.back()" class="btn btn-primary">Back</a>
                             </div>
-                        </div>
+                        </div>                        
                     </form>
 
-                    
-                    <a href="javascript:history.back()" class="btn btn-primary">Back</a>
-                    
-                    
                 </div>
             </div>
         </div>
