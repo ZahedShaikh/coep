@@ -38,7 +38,10 @@ Route::get('/getScholarships', 'assignScholarshipsController@edit')->name('getSc
 Route::post('/assignScholarships', 'assignScholarshipsController@update')->name('assignScholarships');
 
 
-Route::get('/amountDistro', 'amountDistroController@show')->name('amountDistro');
+Route::get('/amountDistro', 'transactionhistoryController@edit')->name('getamountDistro');
+Route::post('/assignamountDistro', 'transactionhistoryController@update')->name('assignamountDistro');
+
+
 Route::get('/displayStudentDetails', 'displayStudentDetailsController@show')->name('displayStudentDetails');
 Route::get('/displayAll', 'displayAllController@show')->name('displayAll');
 

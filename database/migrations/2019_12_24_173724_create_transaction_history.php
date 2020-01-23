@@ -14,15 +14,18 @@ class CreateTransactionHistory extends Migration
     public function up()
     {
         Schema::create('transaction_history', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->foreign('id')->references('id')->on('registerusers')->onDelete('cascade');
+            $table->bigIncrements('transactionId');
             
+            /* its a Student primary key but I dont want to enforce here. Since we'll have to insert it multiple time */
+            $table->string('id');
+                  
             $table->date('dateOfTransaction')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->float('amount')->nullable();
             $table->string('fundingAgancy')->default('null');
             
             $table->timestamps();
         });
+        
     }
 
     /**

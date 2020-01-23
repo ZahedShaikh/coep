@@ -20,7 +20,7 @@
                     </div>
                     @endif
 
-                    <form method="POST" action="{{ route('assignamountDistro') }}">
+                    <form method="POST" action="{{ route('getamountDistro') }}">
                         @csrf
 
                         <div class="form-group row">

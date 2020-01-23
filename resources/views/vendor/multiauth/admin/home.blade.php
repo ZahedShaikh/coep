@@ -16,7 +16,7 @@
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <label for="assignScholarships" class="col-md-6 col-form-label text-md-right">{{ __('Assign Scholarships') }}</label>
-                            <a href="{{ route('getScholarships') }}" class="btn btn-group-toggle btn-primary mr-3">Edit</a>
+                            <a href="{{ route('getScholarships') }}" class="btn btn-group-toggle btn-primary mr-3">Grant</a>
                         </li>
                     </div>
 
@@ -24,7 +24,7 @@
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <label for="amountDistro" class="col-md-6 col-form-label text-md-right">{{ __('Amount Distribution') }}</label>
-                            <a href="{{ route('amountDistro') }}" class="btn btn-group-toggle btn-primary mr-3">Edit</a>
+                            <a href="{{ route('getamountDistro') }}" class="btn btn-group-toggle btn-primary mr-3">Edit</a>
                         </li>
                     </div>
 
@@ -32,7 +32,7 @@
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <label for="displayStudentDetails" class="col-md-6 col-form-label text-md-right">{{ __('Display Student Details') }}</label>
-                            <a href="{{ route('displayStudentDetails') }}" class="btn btn-group-toggle btn-primary mr-3">Edit</a>
+                            <a href="{{ route('displayStudentDetails') }}" class="btn btn-group-toggle btn-primary mr-3">Show</a>
                         </li>
                     </div>
                     
@@ -40,7 +40,7 @@
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <label for="displayAll" class="col-md-6 col-form-label text-md-right">{{ __('Display All') }}</label>
-                            <a href="{{ route('displayAll') }}" class="btn btn-group-toggle btn-primary mr-3">Edit</a>
+                            <a href="{{ route('displayAll') }}" class="btn btn-group-toggle btn-primary mr-3">Show</a>
                         </li>
                     </div>
                     
