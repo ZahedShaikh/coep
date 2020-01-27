@@ -22,8 +22,6 @@
                     @endif
 
 
-
-
                     <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
@@ -45,12 +43,21 @@
                                 </select>
                             </div>
 
-                            <div class="form-group" align="center">
-                                <button type="button" name="filter" id="filter" class="btn btn-info">Filter</button>
 
-                                <button type="button" name="reset" id="reset" class="btn btn-default">Reset</button>
+                            <div class="text-right mb-3 text-center">
+
+                                <button type="button" name="filter" id="filter" class="btn btn-primary">
+                                    {{ __('Filter') }}
+                                </button>
+                                <button type="button" name="reset" id="reset" class="btn btn-primary">
+                                    {{ __('Reset') }}
+                                </button>
+
+                                <a href="javascript:history.back()" class="btn btn-primary">Back</a>
                             </div>
                         </div>
+
+
                         <div class="col-md-4"></div>
                     </div>
                     <br />
@@ -71,27 +78,6 @@
 
 
 
-
-
-
-
-
-
-                    <div class="form-group row mb-0">
-                        <div class="col-md-6 offset-md-8">
-
-                            <!--
-                            <button type="submit" class="btn btn-primary", id="send_form">
-                                {{ __('Assign') }}
-                            </button>
-                            !-->
-
-                            <a href="javascript:history.back()" class="btn btn-primary">Back</a>
-                        </div>
-                    </div>
-                    </form>
-
-
                 </div>
             </div>
         </div>
@@ -101,7 +87,7 @@
 
 
 <script>
-$(document).ready(function(){
+$(document).ready(function () {
 
     fill_datatable();
 
@@ -110,55 +96,54 @@ $(document).ready(function(){
         var dataTable = $('#customer_data').DataTable({
             processing: true,
             serverSide: true,
-            ajax:{
+            ajax: {
                 url: "{{ route('allStudentDataView.index') }}",
-                data:{filter_gender:filter_gender, filter_country:filter_country}
+                data: {filter_gender: filter_gender, filter_country: filter_country}
             },
             columns: [
                 {
-                    data:'CustomerName',
-                    name:'CustomerName'
+                    data: 'CustomerName',
+                    name: 'CustomerName'
                 },
                 {
-                    data:'Gender',
-                    name:'Gender'
+                    data: 'Gender',
+                    name: 'Gender'
                 },
                 {
-                    data:'Address',
-                    name:'Address'
+                    data: 'Address',
+                    name: 'Address'
                 },
                 {
-                    data:'City',
-                    name:'City'
+                    data: 'City',
+                    name: 'City'
                 },
                 {
-                    data:'PostalCode',
-                    name:'PostalCode'
+                    data: 'PostalCode',
+                    name: 'PostalCode'
                 },
                 {
-                    data:'Country',
-                    name:'Country'
+                    data: 'Country',
+                    name: 'Country'
                 }
             ]
         });
     }
 
-    $('#filter').click(function(){
+    $('#filter').click(function () {
         var filter_gender = $('#filter_gender').val();
         var filter_country = $('#filter_country').val();
 
-        if(filter_gender != '' &&  filter_gender != '')
+        if (filter_gender != '' && filter_gender != '')
         {
             $('#customer_data').DataTable().destroy();
             fill_datatable(filter_gender, filter_country);
-        }
-        else
+        } else
         {
             alert('Select Both filter option');
         }
     });
 
-    $('#reset').click(function(){
+    $('#reset').click(function () {
         $('#filter_gender').val('');
         $('#filter_country').val('');
         $('#customer_data').DataTable().destroy();
