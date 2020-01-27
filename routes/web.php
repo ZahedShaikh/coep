@@ -34,15 +34,24 @@ Route::get('/profileprint', 'ProfilePrintController@show')->name('profileprint')
  * Route::get('/displayAll/{year}/{college}/{area}', 'displayAllController@show')->name('displayAll');
  */
 
+//Done
 Route::get('/getScholarships', 'assignScholarshipsController@edit')->name('getScholarships');
 Route::post('/assignScholarships', 'assignScholarshipsController@update')->name('assignScholarships');
-
-
 Route::get('/amountDistro', 'transactionhistoryController@edit')->name('getamountDistro');
 Route::post('/assignamountDistro', 'transactionhistoryController@update')->name('assignamountDistro');
 
+Route::get('/displayAStudentDetail', 'displayAStudentDetailController@show')->name('displayAStudentDetail');
 
-Route::get('/displayStudentDetails', 'displayStudentDetailsController@show')->name('displayStudentDetails');
+
+//Route::get('/allStudentDataView', 'AllStudentDataViewController@index')->name('allStudentDataView');
+
+Route::get('/allStudentDataView', 'AllStudentDataViewController@ajaxRequest')->name('allStudentDataView');
+//Route::post('/allStudentDataView', 'AllStudentDataViewController@ajaxRequestPost')->name('allStudentDataView');
+
+
+Route::resource('allStudentDataView', 'AllStudentDataViewController');
+
+
 Route::get('/displayAll', 'displayAllController@show')->name('displayAll');
 
 //https://stackoverflow.com/questions/34217120/how-to-pass-multiple-arguments-with-url-routing-in-laravel-5-1
