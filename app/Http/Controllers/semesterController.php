@@ -135,18 +135,20 @@ class semesterController extends Controller {
                         ->select('yearOfAdmission')
                         ->where('id', Auth::user()->id)->first();
         $dateOfAdmit = strtotime($date1->yearOfAdmission);
-        //dd(gettype($dateOfAdmit));
-
+        
         $now = date('Y-m-d');
         $todaysDate = strtotime($now);
-        //dd(gettype($todaysDate));
-
+        
         $diff = ( $todaysDate - $dateOfAdmit ) / ( 86400 );
+        
+        /*
+         * 11510640000  = seconds to convert seconds into 'year' i.e. 1 year
+         * 86400        = seconds to convert seconds into 'semester' i.e. 6th months
+         */
+        
+        
         $monthDiff = floor(floor($diff / 30.5) / 36);
-        //dd($diff);
-        //dd($monthDiff);
-        //dd($count);
-
+        
         if ($count >= $monthDiff) {
             $task->updated = 'yes';
             $task->fill($input)->save();

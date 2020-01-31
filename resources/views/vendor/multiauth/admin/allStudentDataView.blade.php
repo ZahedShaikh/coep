@@ -32,6 +32,7 @@
                                     <option value="Female">Female</option>
                                 </select>
                             </div>
+                            
                             <div class="form-group">
                                 <select name="filter_country" id="filter_country" class="form-control" required>
                                     <option value="">Select Country</option>
@@ -42,7 +43,6 @@
                                     @endforeach
                                 </select>
                             </div>
-
 
                             <div class="text-right mb-3 text-center">
 
@@ -87,7 +87,7 @@
 
 
 <script>
-$(document).ready(function () {
+$(document).ready(function(){
 
     fill_datatable();
 
@@ -96,54 +96,55 @@ $(document).ready(function () {
         var dataTable = $('#customer_data').DataTable({
             processing: true,
             serverSide: true,
-            ajax: {
-                url: "{{ route('allStudentDataView.index') }}",
-                data: {filter_gender: filter_gender, filter_country: filter_country}
+            ajax:{
+                url: "{{ route('AllStudentDataView') }}",
+                data:{filter_gender:filter_gender, filter_country:filter_country}
             },
             columns: [
                 {
-                    data: 'CustomerName',
-                    name: 'CustomerName'
+                    data:'CustomerName',
+                    name:'CustomerName'
                 },
                 {
-                    data: 'Gender',
-                    name: 'Gender'
+                    data:'Gender',
+                    name:'Gender'
                 },
                 {
-                    data: 'Address',
-                    name: 'Address'
+                    data:'Address',
+                    name:'Address'
                 },
                 {
-                    data: 'City',
-                    name: 'City'
+                    data:'City',
+                    name:'City'
                 },
                 {
-                    data: 'PostalCode',
-                    name: 'PostalCode'
+                    data:'PostalCode',
+                    name:'PostalCode'
                 },
                 {
-                    data: 'Country',
-                    name: 'Country'
+                    data:'Country',
+                    name:'Country'
                 }
             ]
         });
     }
 
-    $('#filter').click(function () {
+    $('#filter').click(function(){
         var filter_gender = $('#filter_gender').val();
         var filter_country = $('#filter_country').val();
 
-        if (filter_gender != '' && filter_gender != '')
+        if(filter_gender != '' &&  filter_gender != '')
         {
             $('#customer_data').DataTable().destroy();
             fill_datatable(filter_gender, filter_country);
-        } else
+        }
+        else
         {
             alert('Select Both filter option');
         }
     });
 
-    $('#reset').click(function () {
+    $('#reset').click(function(){
         $('#filter_gender').val('');
         $('#filter_country').val('');
         $('#customer_data').DataTable().destroy();

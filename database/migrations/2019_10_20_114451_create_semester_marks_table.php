@@ -4,32 +4,31 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSemesterMarksTable extends Migration
-{
+class CreateSemesterMarksTable extends Migration {
+
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('semester_marks', function (Blueprint $table) {
             $table->bigIncrements('id');
-			$table->foreign('id')->references('id')->on('registerusers')->onDelete('cascade');
-            
-			$table->string('semester1')->nullable();
-			$table->string('semester2')->nullable();
-			$table->string('semester3')->nullable();
-			$table->string('semester4')->nullable();
-			$table->string('semester5')->nullable();
-			$table->string('semester6')->nullable();
-			$table->string('semester7')->nullable();
-			$table->string('semester8')->nullable();
-			
-			// To be updated dynamically
-			$table->string('CGPA')->nullable();
-			$table->enum('updated', ['yes', 'no'])->default('no');
-			$table->timestamps();
+            $table->foreign('id')->references('id')->on('registerusers')->onDelete('cascade');
+
+            $table->string('semester1')->nullable();
+            $table->string('semester2')->nullable();
+            $table->string('semester3')->nullable();
+            $table->string('semester4')->nullable();
+            $table->string('semester5')->nullable();
+            $table->string('semester6')->nullable();
+            $table->string('semester7')->nullable();
+            $table->string('semester8')->nullable();
+
+            // To be updated dynamically
+            $table->string('CGPA')->nullable();
+            $table->enum('updated', ['yes', 'no'])->default('no');
+            $table->timestamps();
         });
     }
 
@@ -38,8 +37,8 @@ class CreateSemesterMarksTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('semester_marks');
     }
+
 }

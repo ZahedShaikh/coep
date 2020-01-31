@@ -174,7 +174,12 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        
+        /*
+         * Ajax and Datatable view providers defined by Jahed
+         */
+        Yajra\DataTables\DataTablesServiceProvider::class,
+        
     ],
 
     /*
@@ -225,6 +230,12 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        
+        
+        /*
+         * Ajax and Datatable view providers defined by Jahed
+         */
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
 
     ],
 

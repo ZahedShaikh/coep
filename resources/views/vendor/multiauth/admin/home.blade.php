@@ -40,7 +40,7 @@
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <label for="displayAll" class="col-md-6 col-form-label text-md-right">{{ __('Display All') }}</label>
-                            <a href="{{ route('allStudentDataView') }}" class="btn btn-group-toggle btn-primary mr-3">Show</a>
+                            <a href="{{ route('getStudentDataView') }}" class="btn btn-group-toggle btn-primary mr-3">Show</a>
                         </li>
                     </div>
                     
