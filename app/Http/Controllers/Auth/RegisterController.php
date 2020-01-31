@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\registeruser;
 use App\semesterMarks;
 use App\BankDetails;
+use App\Students_Current_Year;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -35,29 +37,42 @@ class RegisterController extends Controller {
 
     protected function create(array $data) {
 
-        $user = registeruser::create([
-                    'name' => $data['name'],
-                    'middleName' => $data['middleName'],
-                    'surName' => $data['surName'],
-                    'category' => $data['category'],
-                    'gender' => $data['gender'],
-                    'college' => $data['college'],
-                    'yearOfAdmission' => $data['yearOfAdmission'],
-                    'contact' => $data['contact'],
-                    'email' => $data['email'],
-                    'password' => Hash::make($data['password']),
-        ]);
+        try {
+            DB::beginTransaction();
 
-        $id = $user->id; // Get current user id
+            $user = registeruser::create([
+                        'name' => $data['name'],
+                        'middleName' => $data['middleName'],
+                        'surName' => $data['surName'],
+                        'category' => $data['category'],
+                        'gender' => $data['gender'],
+                        'college' => $data['college'],
+                        'yearOfAdmission' => $data['yearOfAdmission'],
+                        'contact' => $data['contact'],
+                        'email' => $data['email'],
+                        'password' => Hash::make($data['password']),
+            ]);
 
-        semesterMarks::create([
-            'id' => $id,
-        ]);
-        
-        BankDetails::create([
-            'id' => $id,
-        ]);
+            $id = $user->id; // Get current user id
 
-        return $user;
+            semesterMarks::create([
+                'id' => $id,
+            ]);
+
+            BankDetails::create([
+                'id' => $id,
+            ]);
+
+            Students_Current_Year::create([
+                'id' => $id,
+            ]);
+
+            DB::commit();
+            return $user;
+        } catch (\Exception $e) {
+            DB::rollback();
+            return view('auth.login');
+        }
     }
+
 }
