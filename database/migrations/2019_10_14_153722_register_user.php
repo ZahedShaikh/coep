@@ -23,13 +23,14 @@ class RegisterUser extends Migration {
             $table->date('yearOfAdmission');
             $table->string('contact');
             $table->string('college');
+            
+            // Somtimes students get Enrollment no late so not forcing.
+            $table->string('collegeEnrollmentNo')->nullable()->unique();
+            $table->enum('user_profile_updated', ['yes', 'no'])->default('no');
 
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-
-            $table->enum('updated', ['yes', 'no'])->default('no');
-            $table->string('scholarshipName')->default('funding');
 
             $table->rememberToken();
             $table->timestamps();
