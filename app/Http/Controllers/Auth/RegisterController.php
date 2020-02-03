@@ -6,6 +6,7 @@ use App\registeruser;
 use App\semesterMarks;
 use App\BankDetails;
 use App\Students_Current_Year;
+use App\ScholarshipStatus;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -47,6 +48,7 @@ class RegisterController extends Controller {
                         'category' => $data['category'],
                         'gender' => $data['gender'],
                         'college' => $data['college'],
+                        'collegeEnrollmentNo' => $data['collegeEnrollmentNo'],
                         'yearOfAdmission' => $data['yearOfAdmission'],
                         'contact' => $data['contact'],
                         'email' => $data['email'],
@@ -64,6 +66,10 @@ class RegisterController extends Controller {
             ]);
 
             Students_Current_Year::create([
+                'id' => $id,
+            ]);
+
+            ScholarshipStatus::create([
                 'id' => $id,
             ]);
 

@@ -76,18 +76,23 @@
                             <div class="col-md-6">
                                 <select id="college" name="college" class="form-control" required autofocus>
                                     <option disabled="" selected=""></option>
-                                    
+
                                     <option value="coep">College of Engineering Pune</option>
                                     <option value="gpp">Government Polytechnic Pune</option>
                                     <option value="gcoer">government college of engineering and research avasari</option>
                                     <option value="gcoek">government college of engineering karad</option>
                                     <option value="gpa">government polytechnic awasari</option>
-                                    
+
                                 </select>
                             </div>
                         </div>
 
-
+                        <div class="form-group row">
+                            <label for="collegeEnrollmentNo" class="col-md-4 col-form-label text-md-right">{{ __('College Enrollment No') }}</label>
+                            <div class="col-md-6">
+                                <input id="collegeEnrollmentNo" type="text" class="form-control @error('collegeEnrollmentNo') is-invalid @enderror" name="collegeEnrollmentNo" value="{{ old('collegeEnrollmentNo') }}" required autocomplete="collegeEnrollmentNo" autofocus>
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="yearOfAdmission" class="col-md-4 col-form-label text-md-right">{{ __('Year of admission') }}</label>
