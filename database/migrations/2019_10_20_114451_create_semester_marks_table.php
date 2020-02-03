@@ -27,7 +27,11 @@ class CreateSemesterMarksTable extends Migration {
 
             // To be updated dynamically
             $table->string('CGPA')->nullable();
-            $table->enum('updated', ['yes', 'no'])->default('no');
+            $table->enum('semester_marks_updated', ['yes', 'no'])->default('no');
+
+            // Add validity for 7-8 months
+            $table->date('marks_validity')->default(DB::raw('CURRENT_TIMESTAMP'));
+
             $table->timestamps();
         });
     }

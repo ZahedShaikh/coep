@@ -135,26 +135,33 @@ class semesterController extends Controller {
                         ->select('yearOfAdmission')
                         ->where('id', Auth::user()->id)->first();
         $dateOfAdmit = strtotime($date1->yearOfAdmission);
-        
+
         $now = date('Y-m-d');
         $todaysDate = strtotime($now);
-        
+
         $diff = ( $todaysDate - $dateOfAdmit ) / ( 86400 );
-        
+
         /*
          * 11510640000  = seconds to convert seconds into 'year' i.e. 1 year
          * 86400        = seconds to convert seconds into 'semester' i.e. 6th months
          */
-        
-        
+
+
         $monthDiff = floor(floor($diff / 30.5) / 36);
-        
+
         if ($count >= $monthDiff) {
-            $task->updated = 'yes';
+            $task->semester_marks_updated = 'yes';
             $task->fill($input)->save();
+
+            // This line has be cheacked, so commneting now
+            /*
+              $now = $now + 86400;
+              $task->marks_validity = $now->format('m-d-Y');
+             */
+
             return redirect(route('home'))->with('message', 'Marks updated successfully');
         } else {
-            $task->updated = 'no';
+            $task->semester_marks_updated = 'no';
             $task->fill($input)->save();
             return redirect(route('home'))->with('message', 'Marks updated with error. Add your all semester marks');
         }

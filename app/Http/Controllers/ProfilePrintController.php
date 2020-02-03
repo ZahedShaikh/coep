@@ -30,9 +30,12 @@ class ProfilePrintController extends Controller {
             return redirect(route('home'))->with('message', 'Please all details and your marks first');
         }
 
-        if ($marks->updated == 'yes') {
+        if ($marks->semester_marks_updated == 'yes') {
+            
+            // Add a date validity from semester_marks_validity colum
+            
             $banks = DB::table('bank_details')->where('id', Auth::user()->id)->first();
-            if ($banks->updated == 'yes') {
+            if ($banks->bank_details_updated == 'yes') {
                 $info = DB::table('registerusers')->where('id', Auth::user()->id)->first();
                 return view('print.profile', compact('info', 'marks', 'banks'));
             } else {
