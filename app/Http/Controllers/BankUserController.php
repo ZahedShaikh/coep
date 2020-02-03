@@ -50,7 +50,7 @@ class BankUserController extends Controller {
         ]);
 
         $input = $request->all();
-        $task->updated = 'yes';
+        $task->bank_details_updated = 'yes';
         $task->fill($input)->save();
         return redirect(route('home'))->with('message', 'Bank details updated successfully');
     }
