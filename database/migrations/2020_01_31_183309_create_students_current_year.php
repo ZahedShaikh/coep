@@ -20,6 +20,8 @@ class CreateStudentsCurrentYear extends Migration
             $table->enum('degree', ['diploma', 'UG', 'PG'])->nullable();
             $table->enum('studentsCurrentYear', ['FY', 'SY', 'TY', 'BE', 'YD'])->default('FY');
             
+            $table->integer('studentsCurrentSemester')->default(0);
+            
             $table->timestamps();
         });
     }
