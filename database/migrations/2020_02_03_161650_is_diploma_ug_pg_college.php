@@ -17,7 +17,7 @@ class IsDiplomaUgPgCollege extends Migration {
             $table->bigIncrements('id');
             $table->foreign('id')->references('id')->on('registerusers')->onDelete('cascade');
 
-            $table->enum('collage_type', ['diploma', 'UG', 'PG', 'P.hd', 'other'])->default('no');
+            $table->enum('collage_type', ['diploma', 'UG', 'PG', 'P.hd', 'other'])->default('other');
             $table->timestamps();
         });
     }
