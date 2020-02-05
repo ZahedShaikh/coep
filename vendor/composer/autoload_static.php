@@ -401,10 +401,10 @@ class ComposerStaticInita566d6082d898dbb4f31a2986066413a
     );
 
     public static $classMap = array (
+        'App\\AjaxCrud' => __DIR__ . '/../..' . '/app/AjaxCrud.php',
         'App\\BankDetails' => __DIR__ . '/../..' . '/app/BankDetails.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
-        'App\\Http\\Controllers\\AllStudentDataViewController' => __DIR__ . '/../..' . '/app/Http/Controllers/AllStudentDataViewController.php',
         'App\\Http\\Controllers\\AssignScholarshipsController' => __DIR__ . '/../..' . '/app/Http/Controllers/AssignScholarshipsController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
@@ -431,6 +431,7 @@ class ComposerStaticInita566d6082d898dbb4f31a2986066413a
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\ScholarshipStatus' => __DIR__ . '/../..' . '/app/ScholarshipStatus.php',
         'App\\Students_Current_Year' => __DIR__ . '/../..' . '/app/Students_Current_Year.php',
         'App\\registeruser' => __DIR__ . '/../..' . '/app/registeruser.php',
         'App\\scholarship_grants' => __DIR__ . '/../..' . '/app/scholarship_grants.php',

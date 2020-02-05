@@ -42,3 +42,8 @@ Route::get('/displayAStudentDetail', 'displayAStudentDetailController@show')->na
 //Route::get('/displayAll', 'displayAllController@show')->name('displayAll');
 
 //https://stackoverflow.com/questions/34217120/how-to-pass-multiple-arguments-with-url-routing-in-laravel-5-1
+
+
+
+Route::resource('ajax-crud', 'AjaxController');
+https://www.tutsmake.com/laravel-5-7-create-first-ajax-crud-application/
