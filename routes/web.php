@@ -36,14 +36,18 @@ Route::post('/assignamountDistro', 'transactionhistoryController@update')->name(
 Route::get('/getStudentDataView', 'AllStudentDataViewController@ajaxRequest')->name('getStudentDataView');
 Route::get('/allStudentDataView', 'AllStudentDataViewController@index')->name('allStudentDataView');
 //Route::resource('allStudentDataView', 'AllStudentDataViewController');
-
 // Later to be done, if needed!
 Route::get('/displayAStudentDetail', 'displayAStudentDetailController@show')->name('displayAStudentDetail');
 //Route::get('/displayAll', 'displayAllController@show')->name('displayAll');
-
 //https://stackoverflow.com/questions/34217120/how-to-pass-multiple-arguments-with-url-routing-in-laravel-5-1
 
 
 
 Route::resource('ajax-crud', 'AjaxController');
 https://www.tutsmake.com/laravel-5-7-create-first-ajax-crud-application/
+
+
+
+Route::get('/live_search', 'LiveSearch@index');
+Route::get('/live_search/action', 'LiveSearch@action')->name('live_search.action');
+//https://www.webslesson.info/2018/04/live-search-in-laravel-using-ajax.html
