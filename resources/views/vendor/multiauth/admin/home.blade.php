@@ -16,7 +16,7 @@
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <label for="assignScholarships" class="col-md-6 col-form-label text-md-right">{{ __('Assign Scholarships') }}</label>
-                            <a href="{{ route('getScholarships') }}" class="btn btn-group-toggle btn-primary mr-3">Grant</a>
+                            <a href="{{ route('live_search') }}" class="btn btn-group-toggle btn-primary mr-3">Grant</a>
                         </li>
                     </div>
 

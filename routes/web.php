@@ -44,10 +44,9 @@ Route::get('/displayAStudentDetail', 'displayAStudentDetailController@show')->na
 
 
 Route::resource('ajax-crud', 'AjaxController');
-https://www.tutsmake.com/laravel-5-7-create-first-ajax-crud-application/
+//https://www.tutsmake.com/laravel-5-7-create-first-ajax-crud-application/
 
 
-
-Route::get('/live_search', 'LiveSearch@index');
+Route::get('/live_search', 'LiveSearch@index')->name('live_search');;
 Route::get('/live_search/action', 'LiveSearch@action')->name('live_search.action');
 //https://www.webslesson.info/2018/04/live-search-in-laravel-using-ajax.html

@@ -1,50 +1,52 @@
+@extends('multiauth::layouts.appToSearch')
+@section('content')
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Live search in laravel using AJAX</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
-    <meta id="token" name="token" content="{ { csrf_token() } }">
-    <body>
-        <br />
-        <div class="container">
-                        
-            <h3 align="center">Live search in laravel using AJAX</h3><br />
-            <div class="panel panel-default">
-                <div class="panel-heading">Search Customer Data</div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <input type="text" name="search" id="search" class="form-control" placeholder="Search Customer Data" />
-                    </div>
-                    <div class="table-responsive">
-                        <h3 align="center">Total Data : <span id="total_records"></span></h3>
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Customer Name</th>
-                                    <th>Address</th>
-                                    <th>City</th>
-                                    <th>Postal Code</th>
-                                    <th>Country</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">{{ ucfirst(config('multiauth.prefix')) }} Dashboard</div>
 
-                            </tbody>
-                        </table>
+                <br>
+                <div class="form-group col-md-4">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="Search Student"/>
+                </div>
+                
+                <div class="table-responsive">
+                    <h3 align="center">Total Data : <span id="total_records"></span></h3>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>Contact</th>
+                                <th>Assign</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="form-group row mb-0">
+                    <div class="col-md-3 offset-md-10">
+
+                        <a href="javascript:history.back()" class="btn btn-primary">Back</a>
                     </div>
-                </div>    
+                </div>
+                <br>
+                
+                
             </div>
         </div>
-    </body>
-</html>
+    </div>
+</div>
+
 
 <script type="text/javascript">
-
-
 
     $(document).ready(function () {
 
@@ -52,7 +54,6 @@
 
         function fetch_customer_data(query = '')
         {
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -80,5 +81,14 @@
             var query = $(this).val();
             fetch_customer_data(query);
         });
+
+/*
+        $(document).on('keyup', '#search', function () {
+            var query = $(this).val();
+            fetch_customer_data(query);
+        });
+*/
     });
 </script>
+
+@endsection

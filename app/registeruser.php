@@ -10,7 +10,8 @@ class registeruser extends Authenticatable {
     use Notifiable;
 
     protected $fillable = [
-        'name', 'middleName', 'surName', 'category', 'gender', 'yearOfAdmission', 'contact', 'college', 'collegeEnrollmentNo', 'email', 'password',
+        'name', 'middleName', 'surName', 'category', 'gender', 'yearOfAdmission',
+        'contact', 'college', 'collegeEnrollmentNo', 'email', 'password',
     ];
     protected $hidden = [
         'password', 'remember_token',

@@ -24,6 +24,8 @@ class LiveSearch extends Controller {
                 
                 $data = DB::table('registerusers')
                         ->where('id', 'LIKE', '%' . $query . '%')
+                        ->orWhere('name', 'LIKE', '%' . $query . '%')
+                        ->orWhere('collegeEnrollmentNo', 'LIKE', '%' . $query . '%')
                         ->orderBy('id', 'desc')
                         ->get();
 
@@ -43,7 +45,7 @@ class LiveSearch extends Controller {
          <td>' . $row->college . '</td>
          <td>' . $row->email . '</td>
          <td>' . $row->contact . "</td>
-         <td> . <a href=\"javascript:history.back()\" class=\"btn btn-primary\"> " . $row->id . " </td>
+         <td> <a href=\"javascript:history.back()\" class=\"btn btn-primary\"> " . $row->id . " </td>
         </tr>
         ";
                 }
