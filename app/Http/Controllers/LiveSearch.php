@@ -19,16 +19,13 @@ class LiveSearch extends Controller {
 
             $output = '';
             $query = $request->get('query');
+            
             if ($query != '') {
 
-
                 error_log("Some message 1111111111111111111111111111111111111");
-
-                //$some = '%' . $query . '%';
-                error_log("Some  --------------------------");
                 
                 $data = DB::table('registeruser')
-                        ->where('id', 'like', '%' . $query . '%')
+                        ->where('id', 'LIKE', '%' . $query . '%')
                         ->orderBy('id', 'desc')
                         ->get();
 
@@ -39,8 +36,6 @@ class LiveSearch extends Controller {
                         ->get();
             }
 
-            error_log("Some message 333333333333333333333333333333");
-
             $total_row = $data->count();
 
             if ($total_row > 0) {
@@ -50,10 +45,10 @@ class LiveSearch extends Controller {
          <td>' . $row->name . '</td>
          <td>' . $row->college . '</td>
          <td>' . $row->email . '</td>
-         <td>' . $row->contact . '</td>
-         <td>' . $row->gender . '</td>
+         <td>' . $row->contact . "</td>
+         <td> . <a href=\"javascript:history.back()\" class=\"btn btn-primary\"> " . $row->id . " </td>
         </tr>
-        ';
+        ";
                 }
             } else {
                 $output = '
@@ -66,7 +61,6 @@ class LiveSearch extends Controller {
                 'table_data' => $output,
                 'total_data' => $total_row
             );
-
 
             echo json_encode($data);
         }
