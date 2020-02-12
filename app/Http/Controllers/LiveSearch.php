@@ -21,15 +21,12 @@ class LiveSearch extends Controller {
             $query = $request->get('query');
             
             if ($query != '') {
-
-                error_log("Some message 1111111111111111111111111111111111111");
                 
-                $data = DB::table('registeruser')
+                $data = DB::table('registerusers')
                         ->where('id', 'LIKE', '%' . $query . '%')
                         ->orderBy('id', 'desc')
                         ->get();
 
-                error_log("Some message 222222222222222222222222222222222222");
             } else {
                 $data = DB::table('registerusers')
                         ->orderBy('id', 'desc')
