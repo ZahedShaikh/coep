@@ -7,9 +7,11 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
+    <meta id="token" name="token" content="{ { csrf_token() } }">
     <body>
         <br />
-        <div class="container box">
+        <div class="container">
+                        
             <h3 align="center">Live search in laravel using AJAX</h3><br />
             <div class="panel panel-default">
                 <div class="panel-heading">Search Customer Data</div>
@@ -40,7 +42,8 @@
     </body>
 </html>
 
-<script>
+<script type="text/javascript">
+
 
 
     $(document).ready(function () {
@@ -49,9 +52,17 @@
 
         function fetch_customer_data(query = '')
         {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             $.ajax({
                 url: "{{ route('live_search.action') }}",
                 method: "GET",
+                contentType: "application/json; charset=utf-8",
                 data: {query: query},
                 dataType: "json",
                 success: function (data)
