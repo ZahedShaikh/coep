@@ -11,7 +11,7 @@
                 <div class="form-group col-md-4">
                     <input type="text" name="search" id="search" class="form-control" placeholder="Search Student"/>
                 </div>
-                
+
                 <div class="table-responsive">
                     <h3 align="center">Total Data : <span id="total_records"></span></h3>
                     <table class="table table-striped table-bordered">
@@ -38,8 +38,8 @@
                     </div>
                 </div>
                 <br>
-                
-                
+
+
             </div>
         </div>
     </div>
@@ -82,12 +82,12 @@
             fetch_customer_data(query);
         });
 
-/*
-        $(document).on('keyup', '#search', function () {
-            var query = $(this).val();
-            fetch_customer_data(query);
-        });
-*/
+        /*
+         $(document).on('keyup', '#search', function () {
+         var query = $(this).val();
+         fetch_customer_data(query);
+         });
+         */
     });
 </script>
 
