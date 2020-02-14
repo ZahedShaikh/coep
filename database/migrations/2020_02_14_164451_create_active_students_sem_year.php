@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStudentsCurrentYear extends Migration
+class CreateActiveStudentsSemYear extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateStudentsCurrentYear extends Migration
      */
     public function up()
     {
-        Schema::create('students_current_year', function (Blueprint $table) {
+        Schema::create('active_students_sem_year', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreign('id')->references('id')->on('registerusers')->onDelete('cascade');
             
@@ -33,6 +33,6 @@ class CreateStudentsCurrentYear extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('students_current_year');
+        Schema::dropIfExists('active_students_sem_year');
     }
 }

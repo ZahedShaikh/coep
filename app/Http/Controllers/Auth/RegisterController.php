@@ -7,6 +7,7 @@ use App\semesterMarks;
 use App\BankDetails;
 use App\Students_Current_Year;
 use App\ScholarshipStatus;
+use App\Active_Students_Sem_Year;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -65,13 +66,14 @@ class RegisterController extends Controller {
                 'id' => $id,
             ]);
 
-            Students_Current_Year::create([
-                'id' => $id,
-            ]);
-
             ScholarshipStatus::create([
                 'id' => $id,
             ]);
+
+            Active_Students_Sem_Year::create([
+                'id' => $id,
+            ]);
+
 
             DB::commit();
             return $user;

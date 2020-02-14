@@ -401,10 +401,11 @@ class ComposerStaticInita566d6082d898dbb4f31a2986066413a
     );
 
     public static $classMap = array (
-        'App\\AjaxCrud' => __DIR__ . '/../..' . '/app/AjaxCrud.php',
         'App\\BankDetails' => __DIR__ . '/../..' . '/app/BankDetails.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\AjaxController' => __DIR__ . '/../..' . '/app/Http/Controllers/AjaxController.php',
+        'App\\Http\\Controllers\\AllStudentDataViewController' => __DIR__ . '/../..' . '/app/Http/Controllers/AllStudentDataViewController.php',
         'App\\Http\\Controllers\\AssignScholarshipsController' => __DIR__ . '/../..' . '/app/Http/Controllers/AssignScholarshipsController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
@@ -414,6 +415,7 @@ class ComposerStaticInita566d6082d898dbb4f31a2986066413a
         'App\\Http\\Controllers\\BankUserController' => __DIR__ . '/../..' . '/app/Http/Controllers/BankUserController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\LiveSearch' => __DIR__ . '/../..' . '/app/Http/Controllers/LiveSearch.php',
         'App\\Http\\Controllers\\ProfilePrintController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProfilePrintController.php',
         'App\\Http\\Controllers\\semesterController' => __DIR__ . '/../..' . '/app/Http/Controllers/semesterController.php',
         'App\\Http\\Controllers\\transactionhistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/transactionhistoryController.php',

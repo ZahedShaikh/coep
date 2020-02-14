@@ -6,10 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\AjaxCrud' => $baseDir . '/app/AjaxCrud.php',
     'App\\BankDetails' => $baseDir . '/app/BankDetails.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Http\\Controllers\\AjaxController' => $baseDir . '/app/Http/Controllers/AjaxController.php',
+    'App\\Http\\Controllers\\AllStudentDataViewController' => $baseDir . '/app/Http/Controllers/AllStudentDataViewController.php',
     'App\\Http\\Controllers\\AssignScholarshipsController' => $baseDir . '/app/Http/Controllers/AssignScholarshipsController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
     'App\\Http\\Controllers\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Auth/LoginController.php',
@@ -19,6 +20,7 @@ return array(
     'App\\Http\\Controllers\\BankUserController' => $baseDir . '/app/Http/Controllers/BankUserController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
+    'App\\Http\\Controllers\\LiveSearch' => $baseDir . '/app/Http/Controllers/LiveSearch.php',
     'App\\Http\\Controllers\\ProfilePrintController' => $baseDir . '/app/Http/Controllers/ProfilePrintController.php',
     'App\\Http\\Controllers\\semesterController' => $baseDir . '/app/Http/Controllers/semesterController.php',
     'App\\Http\\Controllers\\transactionhistoryController' => $baseDir . '/app/Http/Controllers/transactionhistoryController.php',
