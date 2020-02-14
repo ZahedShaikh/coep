@@ -15,16 +15,19 @@
 
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <label for="assignScholarships" class="col-md-6 col-form-label text-md-right">{{ __('Assign Scholarships') }}</label>
-                            <a href="{{ route('live_search') }}" class="btn btn-group-toggle btn-primary mr-3">Grant</a>
+                            <label for="getNewApplications" class="col-md-6 col-form-label text-md-right">{{ __('New Applications') }}</label>
+                            <a href="{{ route('getNewApplications') }}" class="btn btn-group-toggle btn-primary mr-3">Approve</a>
                         </li>
                     </div>
 
+                    
+                    
+                    
 
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <label for="amountDistro" class="col-md-6 col-form-label text-md-right">{{ __('Amount Distribution') }}</label>
-                            <a href="{{ route('getamountDistro') }}" class="btn btn-group-toggle btn-primary mr-3">Edit</a>
+                            <a href="{{ route('getNewApplications') }}" class="btn btn-group-toggle btn-primary mr-3">Edit</a>
                         </li>
                     </div>
 
@@ -32,7 +35,7 @@
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <label for="displayStudentDetails" class="col-md-6 col-form-label text-md-right">{{ __('Display Student Details') }}</label>
-                            <a href="{{ route('displayAStudentDetail') }}" class="btn btn-group-toggle btn-primary mr-3">Show</a>
+                            <a href="{{ route('getNewApplications') }}" class="btn btn-group-toggle btn-primary mr-3">Show</a>
                         </li>
                     </div>
                     
@@ -40,7 +43,7 @@
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <label for="displayAll" class="col-md-6 col-form-label text-md-right">{{ __('Display All') }}</label>
-                            <a href="{{ route('getStudentDataView') }}" class="btn btn-group-toggle btn-primary mr-3">Show</a>
+                            <a href="{{ route('getNewApplications') }}" class="btn btn-group-toggle btn-primary mr-3">Show</a>
                         </li>
                     </div>
                     

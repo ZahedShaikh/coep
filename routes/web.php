@@ -26,7 +26,22 @@ Route::get('/profileprint', 'ProfilePrintController@show')->name('profileprint')
 
 /*  Admin Page
  */
+
+
+
+//newApplications;
+Route::get('/getNewApplications', 'newApplicationsController@show')->name('getNewApplications');
+Route::post('/assignScholarships', 'assignScholarshipsController@update')->name('assignScholarships');
+
+
+
+
+
+
+
+
 //Done
+/*
 Route::get('/getScholarships', 'assignScholarshipsController@edit')->name('getScholarships');
 Route::post('/assignScholarships', 'assignScholarshipsController@update')->name('assignScholarships');
 Route::get('/amountDistro', 'transactionhistoryController@edit')->name('getamountDistro');
@@ -40,12 +55,11 @@ Route::get('/allStudentDataView', 'AllStudentDataViewController@index')->name('a
 Route::get('/displayAStudentDetail', 'displayAStudentDetailController@show')->name('displayAStudentDetail');
 //Route::get('/displayAll', 'displayAllController@show')->name('displayAll');
 //https://stackoverflow.com/questions/34217120/how-to-pass-multiple-arguments-with-url-routing-in-laravel-5-1
-
+*/
 
 
 Route::resource('ajax-crud', 'AjaxController');
 //https://www.tutsmake.com/laravel-5-7-create-first-ajax-crud-application/
-
 
 Route::get('/live_search', 'LiveSearch@index')->name('live_search');;
 Route::get('/live_search/action', 'LiveSearch@action')->name('live_search.action');
