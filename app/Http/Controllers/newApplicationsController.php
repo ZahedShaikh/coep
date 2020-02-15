@@ -29,14 +29,21 @@ class newApplicationsController extends Controller {
 
             if ($query != '') {
 
-                $data = DB::table('registerusers')
-                        ->where('id', 'LIKE', '%' . $query . '%')
-                        ->orWhere('name', 'LIKE', '%' . $query . '%')
-                        ->orderBy('id', 'desc')
+                $data = DB::table('registerusers')->join('scholarship_status', function ($join) {
+                            $join->on('registerusers.id', '=', 'scholarship_status.id')
+                            ->where('scholarship_status.issuing_authority_status', '=', 'pending');
+                        })
+                        ->where('registerusers.id', 'LIKE', '%' . $query . '%')
+                        ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
+                        ->orderBy('registerusers.id', 'desc')
                         ->get();
             } else {
                 $data = DB::table('registerusers')
-                        ->orderBy('id', 'desc')
+                        ->join('scholarship_status', function ($join) {
+                            $join->on('registerusers.id', '=', 'scholarship_status.id')
+                            ->where('scholarship_status.issuing_authority_status', '=', 'pending');
+                        })
+                        ->orderBy('registerusers.id', 'desc')
                         ->get();
             }
 
@@ -55,10 +62,6 @@ class newApplicationsController extends Controller {
                     <td>' . $row->contact . "</td>
                     <td> <a onclick=\"$(this).assign('$row->id')\" class=\"btn btn-primary align-content-md-center\">Sanction</a> </td>
                     </tr>
-                    
-
-
-
                     ";
                 }
             } else {
@@ -83,7 +86,18 @@ class newApplicationsController extends Controller {
     }
 
     public function accept(Request $request) {
-        //
+
+        if ($request->ajax()) {
+            $output = false;
+            $studentID = $request->get('query');
+            if ($studentID != '') {
+                $data = DB::table('scholarship_status')
+                        ->where('id', $studentID)
+                        ->update(['issuing_authority_status' => 'approved']);
+                $output = true;
+            }
+            echo json_encode($output);
+        }
     }
 
     public function reject() {

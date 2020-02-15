@@ -102,16 +102,19 @@
             });
 
             $.ajax({
-
-                url: "{{ route('showApplicants') }}",
+                url: "{{ route('assignScholarships') }}",
                 method: "GET",
                 contentType: "application/json; charset=utf-8",
                 data: {query: msg},
                 dataType: "json",
                 success: function (data)
                 {
-                    $('tbody').html(data.table_data);
-                    $('#total_records').text(data.total_data);
+                    if (data) {
+                        console.log('JAHED');
+                    } else {
+                        console.log('Not saved');
+                    }
+
                 },
                 error: function (data) {
                     console.log(data.status + " " + data.statusText);
@@ -121,11 +124,9 @@
 
         (function ($) {
             $.fn.assign = function (msg) {
-                //alert(msg);
                 assignScholarshipFunction(msg);
             };
         })(jQuery);
-
 
     });
 
