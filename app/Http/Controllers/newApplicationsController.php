@@ -4,108 +4,96 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ScholarshipStatus;
+use Illuminate\Support\Facades\DB;
 
 class newApplicationsController extends Controller {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index() {
-        //
+        return view('vendor.multiauth.admin.newScholarshipApplications');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create() {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request) {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ScholarshipStatus  $ScholarshipStatus
-     * @return \Illuminate\Http\Response
-     */
-    public function show() {
-        return view('vendor.multiauth.admin.newScholarshipApplications');
+    public function show(Request $request) {
+
+        if ($request->ajax()) {
+
+            $output = '';
+            $query = $request->get('query');
+
+            if ($query != '') {
+
+                $data = DB::table('registerusers')
+                        ->where('id', 'LIKE', '%' . $query . '%')
+                        ->orWhere('name', 'LIKE', '%' . $query . '%')
+                        ->orderBy('id', 'desc')
+                        ->get();
+            } else {
+                $data = DB::table('registerusers')
+                        ->orderBy('id', 'desc')
+                        ->get();
+            }
+
+            $total_row = $data->count();
+
+            if ($total_row > 0) {
+                foreach ($data as $row) {
+
+                    $fullName = $row->name . " " . $row->middleName . " " . $row->surName;
+
+                    $output .= '
+                    <tr>
+                    <td align=\'center\'>' . $row->id . '</td>
+                    <td>' . $fullName . '</td>
+                    <td>' . $row->college . '</td>
+                    <td>' . $row->contact . "</td>
+                    <td> <a onclick=\"$(this).assign('$row->id')\" class=\"btn btn-primary align-content-md-center\">Sanction</a> </td>
+                    </tr>
+                    
+
+
+
+                    ";
+                }
+            } else {
+                $output = '
+            <tr>
+            <td align="center" colspan="5">No Data Found</td>
+            </tr>
+            ';
+            }
+
+            $data = array(
+                'table_data' => $output,
+                'total_data' => $total_row
+            );
+
+            echo json_encode($data);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ScholarshipStatus  $ScholarshipStatus
-     * @return \Illuminate\Http\Response
-     */
+    public function update(Request $request) {
+        //
+    }
+
+    public function accept(Request $request) {
+        //
+    }
+
+    public function reject() {
+        return view('vendor.multiauth.admin.home');
+    }
+
     public function edit(ScholarshipStatus $ScholarshipStatus) {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ScholarshipStatus  $ScholarshipStatus
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ScholarshipStatus $ScholarshipStatus) {
-        
-        /*
-          // Cleaning up data to be human error free!
-          $string = $request->input('student_list');
-          $string = str_replace(' ', '', $string);
-          $string = explode(",", $string);
-
-          if ((int) $string[count($string) - 1] == 0) {
-          unset($string[count($string) - 1]);
-          dd($string[count($string) - 1]);
-          }
-
-
-          $faild = [];    // List of record failed to insert
-          $success = [];  // LIst of records succsed to insert
-          $s = 0;
-          $f = 0;
-
-          for ($x = 0; $x < $string[count($string) - 1]; $x++) {
-          $data = new ScholarshipStatus();
-          $data->id = (int) $string[$x];
-          $data->scholarshipGranted = 'yes';
-          try {
-          $data->save();
-          $success[$s] = (int) $string[$x];
-          $s++;
-          } catch (\Illuminate\Database\QueryException $exc) {
-          $faild[$f] = (int) $string[$x];
-          $f++;
-          #dd($exc->getMessage());
-          }
-          $data = null;
-          }
-         */
-        return redirect(route('admin.home'))->with('message', 'Success');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\ScholarshipStatus  $ScholarshipStatus
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(ScholarshipStatus $ScholarshipStatus) {
         //
     }
