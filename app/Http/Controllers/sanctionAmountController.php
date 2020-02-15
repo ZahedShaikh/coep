@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ScholarshipStatus;
 
-class newApplicationsController extends Controller {
+class sanctionAmountController extends Controller {
 
     /**
      * Display a listing of the resource.
@@ -42,7 +42,7 @@ class newApplicationsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show() {
-        return view('vendor.multiauth.admin.newScholarshipApplications');
+        return view('vendor.multiauth.admin.sendSanctionAmountToAccounts');
     }
 
     /**
@@ -62,8 +62,8 @@ class newApplicationsController extends Controller {
      * @param  \App\ScholarshipStatus  $ScholarshipStatus
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ScholarshipStatus $ScholarshipStatus) {
-        
+    public function sendToAccounts(Request $request, ScholarshipStatus $ScholarshipStatus) {
+
         /*
           // Cleaning up data to be human error free!
           $string = $request->input('student_list');

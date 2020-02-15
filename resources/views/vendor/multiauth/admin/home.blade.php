@@ -15,23 +15,23 @@
 
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <label for="getNewApplications" class="col-md-6 col-form-label text-md-right">{{ __('New Applications') }}</label>
-                            <a href="{{ route('getNewApplications') }}" class="btn btn-group-toggle btn-primary mr-3">Approve</a>
+                            <label for="getNewApplications" class="col-md-6 col-form-label text-md-right">{{ __('Sanction New Applications') }}</label>
+                            <a href="{{ route('getNewApplications') }}" class="btn btn-group-toggle btn-primary mr-3">Sanction</a>
                         </li>
                     </div>
-
-                    
-                    
-                    
 
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <label for="amountDistro" class="col-md-6 col-form-label text-md-right">{{ __('Amount Distribution') }}</label>
-                            <a href="{{ route('getNewApplications') }}" class="btn btn-group-toggle btn-primary mr-3">Edit</a>
+                            <label for="getSanctionAmount" class="col-md-6 col-form-label text-md-right">{{ __('Sanction Scholarship Amount') }}</label>
+                            <a href="{{ route('getSanctionAmount') }}" class="btn btn-group-toggle btn-primary mr-3">Sanction</a>
                         </li>
                     </div>
 
 
+                    
+                    
+                    
+                    
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <label for="displayStudentDetails" class="col-md-6 col-form-label text-md-right">{{ __('Display Student Details') }}</label>

@@ -29,11 +29,13 @@ Route::get('/profileprint', 'ProfilePrintController@show')->name('profileprint')
 
 
 
-//newApplications;
+//newApplications
 Route::get('/getNewApplications', 'newApplicationsController@show')->name('getNewApplications');
 Route::post('/assignScholarships', 'assignScholarshipsController@update')->name('assignScholarships');
 
 
+Route::get('/getSanctionAmount', 'sanctionAmountController@show')->name('getSanctionAmount');
+Route::post('/sendSanctionAmount', 'sanctionAmountController@sendToAccounts')->name('sendSanctionAmount');
 
 
 
