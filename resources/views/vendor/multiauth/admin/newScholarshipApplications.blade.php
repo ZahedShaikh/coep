@@ -110,7 +110,10 @@
                 success: function (data)
                 {
                     if (data) {
-                        console.log('JAHED');
+                        var str1 = 'table#tableID tr#';
+                        var str = str1.concat(msg);
+                        $(str).remove();
+                        location.reload(true);
                     } else {
                         console.log('Not saved');
                     }

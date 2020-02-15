@@ -55,7 +55,7 @@ class newApplicationsController extends Controller {
                     $fullName = $row->name . " " . $row->middleName . " " . $row->surName;
 
                     $output .= '
-                    <tr>
+                    <tr id=\"' . $row->id . '\">
                     <td align=\'center\'>' . $row->id . '</td>
                     <td>' . $fullName . '</td>
                     <td>' . $row->college . '</td>
@@ -101,7 +101,18 @@ class newApplicationsController extends Controller {
     }
 
     public function reject() {
-        return view('vendor.multiauth.admin.home');
+        if ($request->ajax()) {
+            $output = false;
+
+            if ($studentID != '') {
+                $data = DB::table('scholarship_status')
+                        ->where('id', $studentID)
+                        ->update(['issuing_authority_status' => 'approved']);
+                $output = true;
+            }
+
+            echo json_encode($output);
+        }
     }
 
     public function edit(ScholarshipStatus $ScholarshipStatus) {
