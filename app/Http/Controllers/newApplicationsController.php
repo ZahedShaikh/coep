@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ScholarshipStatus;
+use App\scholarship_accepted_list;
+use App\scholarship_rejected_list;
+use App\scholarship_applicants;
 use Illuminate\Support\Facades\DB;
 
 class newApplicationsController extends Controller {
@@ -29,9 +32,8 @@ class newApplicationsController extends Controller {
 
             if ($query != '') {
 
-                $data = DB::table('registerusers')->join('scholarship_status', function ($join) {
-                            $join->on('registerusers.id', '=', 'scholarship_status.id')
-                            ->where('scholarship_status.issuing_authority_status', '=', 'pending');
+                $data = DB::table('registerusers')->join('scholarship_applicants', function ($join) {
+                            $join->on('registerusers.id', '=', 'scholarship_applicants.id');
                         })
                         ->where('registerusers.id', 'LIKE', '%' . $query . '%')
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
@@ -39,9 +41,8 @@ class newApplicationsController extends Controller {
                         ->get();
             } else {
                 $data = DB::table('registerusers')
-                        ->join('scholarship_status', function ($join) {
-                            $join->on('registerusers.id', '=', 'scholarship_status.id')
-                            ->where('scholarship_status.issuing_authority_status', '=', 'pending');
+                        ->join('scholarship_applicants', function ($join) {
+                            $join->on('registerusers.id', '=', 'scholarship_applicants.id');
                         })
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
@@ -90,12 +91,26 @@ class newApplicationsController extends Controller {
         if ($request->ajax()) {
             $output = false;
             $studentID = $request->get('query');
-            if ($studentID != '') {
-                $data = DB::table('scholarship_status')
-                        ->where('id', $studentID)
-                        ->update(['issuing_authority_status' => 'approved']);
+            try {
+                DB::beginTransaction();
+
+                ScholarshipStatus::create([
+                    'id' => $studentID,
+                ]);
+
+                scholarship_accepted_list::create([
+                    'id' => $studentID,
+                ]);
+
+                DB::table('scholarship_applicants')->where('id', '=', $studentID)->delete();
+
+                DB::commit();
                 $output = true;
+            } catch (\Exception $e) {
+                DB::rollback();
+                return redirect(route('vendor.multiauth.admin.newScholarshipApplications'))->with('message', 'Something went wrong');
             }
+
             echo json_encode($output);
         }
     }
@@ -104,11 +119,24 @@ class newApplicationsController extends Controller {
         if ($request->ajax()) {
             $output = false;
 
-            if ($studentID != '') {
-                $data = DB::table('scholarship_status')
-                        ->where('id', $studentID)
-                        ->update(['issuing_authority_status' => 'approved']);
+            try {
+                DB::beginTransaction();
+
+                $remainingIDs = DB::table('scholarship_applicants')->select('id');
+
+                foreach ($remainingIDs as $answers) {
+                    scholarship_rejected_list::create([
+                        'id' => $answers,
+                    ]);
+                }
+
+                DB::table('scholarship_applicants')->truncate();
+
+                DB::commit();
                 $output = true;
+            } catch (\Exception $e) {
+                DB::rollback();
+                return redirect(route('vendor.multiauth.admin.newScholarshipApplications'))->with('message', 'Something went wrong');
             }
 
             echo json_encode($output);
