@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActiveStudentsSemYear extends Migration
+class CreateScholarshipTenure extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateActiveStudentsSemYear extends Migration
      */
     public function up()
     {
-        Schema::create('active_students_sem_year', function (Blueprint $table) {
+        Schema::create('scholarship_tenure', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreign('id')->references('id')->on('registerusers')->onDelete('cascade');
-            
-            $table->enum('degree', ['diploma', 'UG', 'PG'])->nullable();
-            $table->enum('studentsCurrentYear', ['FY', 'SY', 'TY', 'BE', 'YD'])->default('FY');
-            
-            $table->integer('studentsCurrentSemester')->default(0);
             
             $table->timestamps();
         });
@@ -33,6 +28,6 @@ class CreateActiveStudentsSemYear extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('active_students_sem_year');
+        Schema::dropIfExists('scholarship_tenure');
     }
 }
