@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\registeruser;
 use App\semesterMarks;
 use App\BankDetails;
-use App\Students_Current_Year;
-use App\ScholarshipStatus;
-use App\Active_Students_Sem_Year;
+use App\scholarship_applicants;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -65,12 +63,8 @@ class RegisterController extends Controller {
             BankDetails::create([
                 'id' => $id,
             ]);
-
-            ScholarshipStatus::create([
-                'id' => $id,
-            ]);
-
-            Active_Students_Sem_Year::create([
+            
+            scholarship_applicants::create([
                 'id' => $id,
             ]);
 
