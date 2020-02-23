@@ -33,8 +33,9 @@ Route::get('/assignScholarships/', 'newApplicationsController@accept')->name('as
 Route::get('/rejectAllNewApplications', 'newApplicationsController@reject')->name('rejectAllNewApplications');
 
 //  Send Sacntion amount to Account department for monry transfer
-Route::get('/getSanctionAmount', 'sanctionAmountController@show')->name('getSanctionAmount');
-Route::post('/sendSanctionAmount', 'sanctionAmountController@sendToAccounts')->name('sendSanctionAmount');
+Route::get('/getSanctionAmount', 'sanctionAmountController@index')->name('getSanctionAmount');
+Route::get('/showSanctionAmount', 'sanctionAmountController@show')->name('showSanctionAmount');
+Route::get('/sendSanctionAmount/', 'sanctionAmountController@send')->name('sendSanctionAmount');
 
 
 

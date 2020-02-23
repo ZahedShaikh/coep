@@ -7,42 +7,67 @@ use App\ScholarshipStatus;
 
 class sanctionAmountController extends Controller {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index() {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create() {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request) {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ScholarshipStatus  $ScholarshipStatus
-     * @return \Illuminate\Http\Response
-     */
-    public function show() {
         return view('vendor.multiauth.admin.sendSanctionAmountToAccounts');
+    }
+
+    public function show(Request $request) {
+
+        if ($request->ajax()) {
+
+            $output = '';
+            $query = $request->get('query');
+
+            if ($query != '') {
+
+                $data = DB::table('registerusers')->join('scholarship_applicants', function ($join) {
+                            $join->on('registerusers.id', '=', 'scholarship_applicants.id');
+                        })
+                        ->where('registerusers.id', 'LIKE', '%' . $query . '%')
+                        ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
+                        ->orderBy('registerusers.id', 'desc')
+                        ->get();
+            } else {
+                $data = DB::table('registerusers')
+                        ->join('scholarship_applicants', function ($join) {
+                            $join->on('registerusers.id', '=', 'scholarship_applicants.id');
+                        })
+                        ->orderBy('registerusers.id', 'desc')
+                        ->get();
+            }
+
+            $total_row = $data->count();
+
+            if ($total_row > 0) {
+                foreach ($data as $row) {
+
+                    $fullName = $row->name . " " . $row->middleName . " " . $row->surName;
+
+                    $output .= '
+                    <tr id=\"' . $row->id . '\">
+                    <td align=\'center\'>' . $row->id . '</td>
+                    <td>' . $fullName . '</td>
+                    <td>' . $row->college . '</td>
+                    <td>' . $row->contact . "</td>
+                    <td> <a onclick=\"$(this).assign('$row->id')\" class=\"btn btn-primary align-content-md-center\">Sanction</a> </td>
+                    </tr>
+                    ";
+                }
+            } else {
+                $output = '
+            <tr>
+            <td align="center" colspan="5">No Data Found</td>
+            </tr>
+            ';
+            }
+
+            $data = array(
+                'table_data' => $output,
+                'total_data' => $total_row
+            );
+
+            echo json_encode($data);
+        }
     }
 
     /**
@@ -54,14 +79,36 @@ class sanctionAmountController extends Controller {
     public function edit(ScholarshipStatus $ScholarshipStatus) {
         //
     }
+    
+    public function send(Request $request) {
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ScholarshipStatus  $ScholarshipStatus
-     * @return \Illuminate\Http\Response
-     */
+        if ($request->ajax()) {
+            $output = false;
+            $studentID = $request->get('query');
+            try {
+                DB::beginTransaction();
+
+                ScholarshipStatus::create([
+                    'id' => $studentID,
+                ]);
+
+                scholarship_accepted_list::create([
+                    'id' => $studentID,
+                ]);
+
+                DB::table('scholarship_applicants')->where('id', '=', $studentID)->delete();
+
+                DB::commit();
+                $output = true;
+            } catch (\Exception $e) {
+                DB::rollback();
+                return redirect(route('vendor.multiauth.admin.newScholarshipApplications'))->with('message', 'Something went wrong');
+            }
+
+            echo json_encode($output);
+        }
+    }
+    
     public function sendToAccounts(Request $request, ScholarshipStatus $ScholarshipStatus) {
 
         /*

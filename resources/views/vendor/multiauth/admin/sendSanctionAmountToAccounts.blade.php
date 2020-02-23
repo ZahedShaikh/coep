@@ -5,23 +5,22 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">{{ ucfirst(config('multiauth.prefix')) }} Dashboard</div>
+                <div class="card-header" >{{ ucfirst(config('multiauth.prefix')) }}: You have <span id="total_records"></span> New Applications</div>
 
                 <br>
                 <div class="form-group col-md-4">
                     <input type="text" name="search" id="search" class="form-control" placeholder="Search Student"/>
                 </div>
 
-                <div class="table-responsive">
-                    <h3 align="center">Total Data : <span id="total_records"></span></h3>
+                <div class="table-responsive" id='tableID'>
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
+                                <th>Form ID</th>
                                 <th>Name</th>
-                                <th>Address</th>
-                                <th>City</th>
+                                <th>College</th>
                                 <th>Contact</th>
-                                <th>Assign</th>
+                                <th>Accept</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,17 +31,18 @@
 
 
                 <div class="form-group row mb-0">
-                    <div class="col-md-3 offset-md-10">
-
+                    <div class="col-md-5 offset-md-7">
+                        <a href="{{ route('rejectAllNewApplications') }}" class="btn btn-primary alert-danger">Reject Remaining All Applications</a>
                         <a href="javascript:history.back()" class="btn btn-primary">Back</a>
+
                     </div>
                 </div>
                 <br>
 
-
             </div>
         </div>
     </div>
+
 </div>
 
 
@@ -50,6 +50,10 @@
 
     $(document).ready(function () {
 
+        /* 
+         * Function to retrive pending application or new applications
+         * 
+         */
         fetch_customer_data();
 
         function fetch_customer_data(query = '')
@@ -61,7 +65,7 @@
             });
 
             $.ajax({
-                url: "{{ route('live_search.action') }}",
+                url: "{{ route('showApplicants') }}",
                 method: "GET",
                 contentType: "application/json; charset=utf-8",
                 data: {query: query},
@@ -82,13 +86,53 @@
             fetch_customer_data(query);
         });
 
-        /*
-         $(document).on('keyup', '#search', function () {
-         var query = $(this).val();
-         fetch_customer_data(query);
-         });
+
+        /* 
+         * Function to assign Scholarships
+         * 
          */
+
+
+        function assignScholarshipFunction(msg)
+        {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "{{ route('assignScholarships') }}",
+                method: "GET",
+                contentType: "application/json; charset=utf-8",
+                data: {query: msg},
+                dataType: "json",
+                success: function (data)
+                {
+                    if (data) {
+                        var str1 = 'table#tableID tr#';
+                        var str = str1.concat(msg);
+                        $(str).remove();
+                        location.reload(true);
+                    } else {
+                        console.log('Not saved');
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data.status + " " + data.statusText);
+                }
+            });
+        }
+
+        (function ($) {
+            $.fn.assign = function (msg) {
+                assignScholarshipFunction(msg);
+            };
+        })(jQuery);
+
     });
+
 </script>
 
 @endsection
