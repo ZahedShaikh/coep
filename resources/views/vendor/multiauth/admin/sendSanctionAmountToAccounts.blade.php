@@ -46,6 +46,7 @@
 </div>
 
 
+
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -65,7 +66,7 @@
             });
 
             $.ajax({
-                url: "{{ route('showApplicants') }}",
+                url: "{{ route('showSanctionAmount') }}",
                 method: "GET",
                 contentType: "application/json; charset=utf-8",
                 data: {query: query},

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ScholarshipStatus;
+use Illuminate\Support\Facades\DB;
 
 class sanctionAmountController extends Controller {
 
@@ -20,17 +21,18 @@ class sanctionAmountController extends Controller {
 
             if ($query != '') {
 
-                $data = DB::table('registerusers')->join('scholarship_applicants', function ($join) {
-                            $join->on('registerusers.id', '=', 'scholarship_applicants.id');
+                $data = DB::table('registerusers')->join('scholarship_status', function ($join) {
+                            $join->on('registerusers.id', '=', 'scholarship_status.id');
                         })
                         ->where('registerusers.id', 'LIKE', '%' . $query . '%')
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             } else {
+
                 $data = DB::table('registerusers')
-                        ->join('scholarship_applicants', function ($join) {
-                            $join->on('registerusers.id', '=', 'scholarship_applicants.id');
+                        ->join('scholarship_status', function ($join) {
+                            $join->on('registerusers.id', '=', 'scholarship_status.id');
                         })
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
@@ -79,7 +81,7 @@ class sanctionAmountController extends Controller {
     public function edit(ScholarshipStatus $ScholarshipStatus) {
         //
     }
-    
+
     public function send(Request $request) {
 
         if ($request->ajax()) {
@@ -108,7 +110,7 @@ class sanctionAmountController extends Controller {
             echo json_encode($output);
         }
     }
-    
+
     public function sendToAccounts(Request $request, ScholarshipStatus $ScholarshipStatus) {
 
         /*
