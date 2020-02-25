@@ -36,6 +36,7 @@ Route::get('/rejectAllNewApplications', 'newApplicationsController@reject')->nam
 Route::get('/getSanctionAmount', 'sanctionAmountController@index')->name('getSanctionAmount');
 Route::get('/showSanctionAmount', 'sanctionAmountController@show')->name('showSanctionAmount');
 Route::get('/sendSanctionAmount/', 'sanctionAmountController@send')->name('sendSanctionAmount');
+Route::get('/sanctionAllApplications', 'sanctionAmountController@sanction')->name('sanctionAllApplications');
 
 
 
