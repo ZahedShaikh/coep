@@ -18,6 +18,7 @@ class ScholarshipStatus extends Migration {
 
             $table->string('scholarshipName')->default('null');
             
+            $table->enum('issuing_authority_status', ['approved', 'pending'])->default('pending');
             $table->enum('account_status', ['approved', 'pending'])->default('pending');
 
             $table->date('lastest_approved_date')->default(DB::raw('CURRENT_TIMESTAMP'));

@@ -20,6 +20,7 @@
                                 <th>Name</th>
                                 <th>College</th>
                                 <th>Contact</th>
+                                <th>Amount</th>
                                 <th>Accept</th>
                             </tr>
                         </thead>
@@ -32,7 +33,7 @@
 
                 <div class="form-group row mb-0">
                     <div class="col-md-5 offset-md-7">
-                        <a href="{{ route('rejectAllNewApplications') }}" class="btn btn-primary alert-danger">Reject Remaining All Applications</a>
+                        <a href="{{ route('sanctionAllApplications') }}" class="btn btn-primary success">Sanction Remaining All Applications</a>
                         <a href="javascript:history.back()" class="btn btn-primary">Back</a>
 
                     </div>
