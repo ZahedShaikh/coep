@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ScholarshipStatus;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class sanctionAmountController extends Controller {
@@ -168,7 +169,7 @@ class sanctionAmountController extends Controller {
             try {
                 DB::beginTransaction();
                 DB::table('amount_sanctioned_by_issuer')->insert(
-                        ['id' => $studentID]
+                        ['id' => $studentID, "created_at" => Carbon::now(), "updated_at" => now()]
                 );
 
                 $sem = DB::table('scholarship_status')
@@ -178,6 +179,9 @@ class sanctionAmountController extends Controller {
 
                 if (intval($sem->now_receiving_amount_for_semester == 8)) {
                     DB::table('scholarship_status')->where('id', '=', $studentID)->delete();
+                    DB::table('scholarship_tenure')->insert(
+                            ['id' => $studentID, 'created_at' => Carbon::now(), 'updated_at' => now()]
+                    );
                 }
 
                 DB::table('scholarship_status')
@@ -193,11 +197,6 @@ class sanctionAmountController extends Controller {
 
             echo json_encode($output);
         }
-    }
-
-    public function sendToAccounts(Request $request, ScholarshipStatus $ScholarshipStatus) {
-
-        return redirect(route('admin.home'))->with('message', 'Success');
     }
 
     /**
