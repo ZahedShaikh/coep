@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header" >{{ ucfirst(config('multiauth.prefix')) }}: You have <span id="total_records"></span> New Applications</div>
+                <div class="card-header" >{{ ucfirst(config('multiauth.prefix')) }}: You have <span id="total_records"></span> students to sanction scholarship amount</div>
 
                 <br>
                 <div class="form-group col-md-4">
@@ -53,7 +53,7 @@
     $(document).ready(function () {
 
         /* 
-         * Function to retrive pending application or new applications
+         * Function to retrive/fetch students with sanction amount status
          * 
          */
         fetch_customer_data();
@@ -90,7 +90,7 @@
 
 
         /* 
-         * Function to assign Scholarships
+         * Function to Sanction Amount
          * 
          */
 
@@ -104,7 +104,7 @@
             });
 
             $.ajax({
-                url: "{{ route('assignScholarships') }}",
+                url: "{{ route('sendSanctionAmount') }}",
                 method: "GET",
                 contentType: "application/json; charset=utf-8",
                 data: {query: msg},

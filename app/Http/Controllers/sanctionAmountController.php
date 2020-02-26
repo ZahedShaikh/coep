@@ -13,7 +13,6 @@ class sanctionAmountController extends Controller {
         $data = DB::table('registerusers')
                 ->join('scholarship_status', 'registerusers.id', '=', 'scholarship_status.id')
                 ->where('scholarship_status.issuing_authority_status', '=', 'pending')
-                //->where('registerusers.id', '=', '3')
                 ->orderBy('registerusers.id', 'desc')
                 ->select('registerusers.id', 'registerusers.yearOfAdmission')
                 ->get();
@@ -55,7 +54,6 @@ class sanctionAmountController extends Controller {
                  */
 
                 $forSemester = 1 + $addMonths + $years * 2;
-                //dd($forSemester);
 
                 DB::table('scholarship_status')
                         ->where('id', $row->id)
@@ -84,7 +82,6 @@ class sanctionAmountController extends Controller {
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             } else {
-
 
                 $data = DB::table('registerusers')
                         ->join('scholarship_status', function ($join) {
@@ -126,7 +123,7 @@ class sanctionAmountController extends Controller {
                     <td>' . $row->college . '</td>
                     <td>' . $row->contact . '</td>
                     <td>' . $amount . "</td>
-                    <td> <a onclick=\"$(this).assign('$row->id')\" class=\"btn btn-primary align-content-md-center\">Sanction</a> </td>
+                    <td> <a onclick=\"$(this).assign('$row->id')\" class=\"btn btn-primary align-content-md-center\">Sanction Amount</a> </td>
                     </tr>
                     ";
                 }
@@ -147,8 +144,9 @@ class sanctionAmountController extends Controller {
         }
     }
 
+    // Sanction remaining all application 
     public function sanction() {
-        // Sanction remaining all application 
+        
     }
 
     /**
@@ -166,24 +164,31 @@ class sanctionAmountController extends Controller {
         if ($request->ajax()) {
             $output = false;
             $studentID = $request->get('query');
+
             try {
                 DB::beginTransaction();
+                DB::table('amount_sanctioned_by_issuer')->insert(
+                        ['id' => $studentID]
+                );
 
-                ScholarshipStatus::create([
-                    'id' => $studentID,
-                ]);
+                $sem = DB::table('scholarship_status')
+                        ->where('id', '=', $studentID)
+                        ->select('now_receiving_amount_for_semester')
+                        ->first();
 
-                scholarship_accepted_list::create([
-                    'id' => $studentID,
-                ]);
+                if (intval($sem->now_receiving_amount_for_semester == 8)) {
+                    DB::table('scholarship_status')->where('id', '=', $studentID)->delete();
+                }
 
-                DB::table('scholarship_applicants')->where('id', '=', $studentID)->delete();
+                DB::table('scholarship_status')
+                        ->where('id', $studentID)
+                        ->update(['issuing_authority_status' => 'approved']);
 
                 DB::commit();
                 $output = true;
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect(route('vendor.multiauth.admin.newScholarshipApplications'))->with('message', 'Something went wrong');
+                return redirect(route('vendor.multiauth.admin.getSanctionAmount'))->with('message', 'Something went wrong');
             }
 
             echo json_encode($output);
