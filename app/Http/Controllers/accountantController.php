@@ -26,8 +26,7 @@ class accountantController extends Controller {
                         })
                         ->where('registerusers.id', 'LIKE', '%' . $query . '%')
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
-                        ->where('scholarship_status.issuing_authority_status', '=', 'approved')
-                        ->where('scholarship_status.account_status', '=', 'pending')
+                        ->where('scholarship_status.in_process_with', '=', 'accountant')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             } else {
@@ -36,8 +35,7 @@ class accountantController extends Controller {
                         ->join('scholarship_status', function ($join) {
                             $join->on('registerusers.id', '=', 'scholarship_status.id');
                         })
-                        ->where('scholarship_status.issuing_authority_status', '=', 'approved')
-                        ->where('scholarship_status.account_status', '=', 'pending')
+                        ->where('scholarship_status.in_process_with', '=', 'accountant')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             }
@@ -114,8 +112,7 @@ class accountantController extends Controller {
                 DB::table('scholarship_status')
                         ->where('id', $studentID)
                         ->update(['prev_amount_received_in_semester' => $temp->now_receiving_amount_for_semester,
-                            'account_status' => 'pending',
-                            'issuing_authority_status' => 'pending']);
+                            'in_process_with' => 'issuer']);
 
                 $months = date('m');
                 $addMonths = 0;

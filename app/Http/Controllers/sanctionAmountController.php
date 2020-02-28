@@ -10,21 +10,23 @@ use Illuminate\Support\Facades\DB;
 class sanctionAmountController extends Controller {
 
     public function index() {
-
         $data = DB::table('registerusers')
                 ->join('scholarship_status', 'registerusers.id', '=', 'scholarship_status.id')
-                ->where('scholarship_status.issuing_authority_status', '=', 'pending')
-                ->where('scholarship_status.prev_amount_received_in_semester', '!=', 'scholarship_status.now_receiving_amount_for_semester')
+                ->where('scholarship_status.in_process_with', '=', 'issuer')
+                ->where('scholarship_status.prev_amount_received_in_semester', '<>', 'scholarship_status.now_receiving_amount_for_semester')
                 ->orderBy('registerusers.id', 'desc')
                 ->select('registerusers.id', 'registerusers.yearOfAdmission')
                 ->get();
+        
 
         $currentYear = date("Y");
 
+        
         //check wehter records are empty or not!
         $total_row = $data->count();
         if ($total_row > 0) {
             foreach ($data as $row) {
+                
 
                 $months = date('m');
                 $addMonths = 0;
@@ -45,7 +47,7 @@ class sanctionAmountController extends Controller {
                 // Substracting 1 since I don't wanna count current year
                 // Instead I will count $addMonths
                 $years = $currentYear - date('Y', strtotime($row->yearOfAdmission)) - 1;
-
+                
                 /*
                  * Logic
                  * 1 = is added because current semester is 1
@@ -55,11 +57,10 @@ class sanctionAmountController extends Controller {
                  */
 
                 $forSemester = 1 + $addMonths + $years * 2;
-
+                
                 DB::table('scholarship_status')
                         ->where('id', $row->id)
-                        ->update(['now_receiving_amount_for_semester' => $forSemester,
-                            'account_status' => 'pending']);
+                        ->update(['now_receiving_amount_for_semester' => $forSemester]);
             }
         }
         return view('vendor.multiauth.admin.sendSanctionAmountToAccounts');
@@ -74,23 +75,21 @@ class sanctionAmountController extends Controller {
 
             if ($query != '') {
 
-                $data = DB::table('registerusers')->join('scholarship_status', function ($join) {
-                            $join->on('registerusers.id', '=', 'scholarship_status.id');
-                        })
+                $data = DB::table('registerusers')
+                        ->join('scholarship_status', 'registerusers.id', '=', 'scholarship_status.id')
                         ->where('registerusers.id', 'LIKE', '%' . $query . '%')
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
-                        ->where('scholarship_status.issuing_authority_status', '=', 'pending')
-                        ->where('scholarship_status.account_status', '=', 'pending')
+                        ->where('scholarship_status.in_process_with', '=', 'issuer')
+                        ->where('scholarship_status.prev_amount_received_in_semester', '<>', 'scholarship_status.now_receiving_amount_for_semester')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             } else {
 
                 $data = DB::table('registerusers')
-                        ->join('scholarship_status', function ($join) {
-                            $join->on('registerusers.id', '=', 'scholarship_status.id');
-                        })
-                        ->where('scholarship_status.issuing_authority_status', '=', 'pending')
-                        ->where('scholarship_status.account_status', '=', 'pending')
+                        ->join('scholarship_status AS S1', 'registerusers.id', '=', 'S1.id')
+                        ->where('scholarship_status.in_process_with', '=', 'issuer')
+                        ->join('scholarship_status AS S2', 'S1.id', '=', 'S2.id')
+                        ->where('S1.prev_amount_received_in_semester', '!=', 'S2.now_receiving_amount_for_semester')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             }
@@ -170,7 +169,7 @@ class sanctionAmountController extends Controller {
                 }
                 DB::table('scholarship_status')
                         ->where('id', $studentID)
-                        ->update(['issuing_authority_status' => 'approved']);
+                        ->update(['in_process_with' => 'accountant']);
 
                 DB::commit();
                 $output = true;

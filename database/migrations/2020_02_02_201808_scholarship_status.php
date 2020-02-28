@@ -18,12 +18,13 @@ class ScholarshipStatus extends Migration {
 
             $table->string('scholarshipName')->default('null');
             
-            $table->enum('issuing_authority_status', ['approved', 'pending'])->default('pending');
-            $table->enum('account_status', ['approved', 'pending'])->default('pending');
-
+            //$table->enum('issuing_authority_status', ['approved', 'pending'])->default('pending');
+            //$table->enum('account_status', ['approved', 'pending'])->default('pending');
+            $table->enum('in_process_with', ['issuer', 'accountant'])->default('issuer');
+            
             $table->date('lastest_approved_date')->default(DB::raw('CURRENT_TIMESTAMP'));
 
-            $table->integer('prev_amount_received_in_semester')->default(0);
+            $table->integer('prev_amount_received_in_semester')->default(-1);
             $table->integer('now_receiving_amount_for_semester')->default(0);
 
             $table->timestamps();
