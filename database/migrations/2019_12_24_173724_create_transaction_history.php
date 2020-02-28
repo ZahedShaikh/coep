@@ -25,9 +25,9 @@ class CreateTransactionHistory extends Migration {
             $table->year('year')->useCurrent();
             $table->float('amount')->nullable();
 
-            $table->enum('amountReceivedForYear', ['FY', 'SY', 'TY', 'BE', 'other']);
-            $table->enum('amountReceivedForSemester', ['sem1', 'sem2', 'sem3', 'sem4', 'sem5',
-                'sem6', 'sem7', 'sem8', 'other']);
+            $table->enum('amountReceivedForYear', ['1', '2', '3', '4', '5']);
+            $table->enum('amountReceivedForSemester', ['1', '2', '3', '4', '5',
+                '6', '7', '8', '9']);
 
             $table->timestamps();
         });
