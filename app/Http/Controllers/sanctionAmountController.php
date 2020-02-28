@@ -14,7 +14,7 @@ class sanctionAmountController extends Controller {
         $data = DB::table('registerusers')
                 ->join('scholarship_status', 'registerusers.id', '=', 'scholarship_status.id')
                 ->where('scholarship_status.issuing_authority_status', '=', 'pending')
-                ->where('scholarship_status.prev_amount_received_in_semester', '!=', 'scholarship_status.now_receiving_amount_for_semester')
+                //->where('scholarship_status.prev_amount_received_in_semester', '!=', 'scholarship_status.now_receiving_amount_for_semester')
                 ->orderBy('registerusers.id', 'desc')
                 ->select('registerusers.id', 'registerusers.yearOfAdmission')
                 ->get();
@@ -23,7 +23,6 @@ class sanctionAmountController extends Controller {
 
         //check wehter records are empty or not!
         $total_row = $data->count();
-
         if ($total_row > 0) {
             foreach ($data as $row) {
 
@@ -81,7 +80,7 @@ class sanctionAmountController extends Controller {
                         ->where('registerusers.id', 'LIKE', '%' . $query . '%')
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
                         ->where('scholarship_status.issuing_authority_status', '=', 'pending')
-                        ->where('scholarship_status.prev_amount_received_in_semester', '!=', 'scholarship_status.now_receiving_amount_for_semester')
+                        //->where('scholarship_status.prev_amount_received_in_semester', '!=', 'scholarship_status.now_receiving_amount_for_semester')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             } else {
@@ -94,21 +93,6 @@ class sanctionAmountController extends Controller {
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
 
-
-                /*
-                 * Simplest way to do Joins
-                 *  
-                 */
-                /*
-
-                  $data = DB::table('registerusers')
-                  ->join('scholarship_status', 'registerusers.id', '=', 'scholarship_status.id')
-                  ->orderBy('registerusers.id', 'desc')
-                  ->where('scholarship_status.issuing_authority_status', '=', 'pending')
-                  ->select('registerusers*', 'scholarship_status*')
-                  ->get();
-
-                 */
             }
 
             $total_row = $data->count();
