@@ -35,10 +35,15 @@ Route::get('/rejectAllNewApplications', 'newApplicationsController@reject')->nam
 //  Send Sacntion amount to Account department for monry transfer
 Route::get('/getSanctionAmount', 'sanctionAmountController@index')->name('getSanctionAmount');
 Route::get('/showSanctionAmount', 'sanctionAmountController@show')->name('showSanctionAmount');
-Route::get('/sendSanctionAmount/', 'sanctionAmountController@send')->name('sendSanctionAmount');
+Route::get('/sendSanctionAmount', 'sanctionAmountController@send')->name('sendSanctionAmount');
 Route::get('/sanctionAllApplications', 'sanctionAmountController@sanction')->name('sanctionAllApplications');
 
 
+//  Here Accountant will credit all amount to stduents account
+Route::get('/getAmountToBeCredit', 'accountantController@index')->name('getAmountToBeCredit');
+Route::get('/showAmountToBeCredit', 'accountantController@show')->name('showAmountToBeCredit');
+Route::get('/creditAmountToBank', 'accountantController@send')->name('creditAmountToBank');
+Route::get('/creditEveryoneAmountToBank', 'accountantController@sanction')->name('creditEveryoneAmountToBank');
 
 
 /*

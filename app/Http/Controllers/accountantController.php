@@ -3,67 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\ScholarshipStatus;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class sanctionAmountController extends Controller {
 
+class accountantController extends Controller
+{
     public function index() {
-
-        $data = DB::table('registerusers')
-                ->join('scholarship_status', 'registerusers.id', '=', 'scholarship_status.id')
-                ->where('scholarship_status.issuing_authority_status', '=', 'pending')
-                ->where('scholarship_status.prev_amount_received_in_semester', '!=', 'scholarship_status.now_receiving_amount_for_semester')
-                ->orderBy('registerusers.id', 'desc')
-                ->select('registerusers.id', 'registerusers.yearOfAdmission')
-                ->get();
-
-        $currentYear = date("Y");
-
-        //check wehter records are empty or not!
-        $total_row = $data->count();
-
-        if ($total_row > 0) {
-            foreach ($data as $row) {
-
-                $months = date('m');
-                $addMonths = 0;
-                switch ($months) {
-                    case ($months >= 7 and $months <= 11):
-                        // This case for Semeseter 1
-                        $addMonths = 2;
-                        break;
-                    case ($months >= 1 and $months <= 5):
-                        // This case for Semeseter 2
-                        $addMonths = 1;
-                        break;
-                    default:
-                        // This case holidays
-                        $addMonths = 0;
-                }
-
-                // Substracting 1 since I don't wanna count current year
-                // Instead I will count $addMonths
-                $years = $currentYear - date('Y', strtotime($row->yearOfAdmission)) - 1;
-
-                /*
-                 * Logic
-                 * 1 = is added because current semester is 1
-                 * $addMonths = is for adding current years semster
-                 * $year = is twice since it have 2 semester
-                 * 
-                 */
-
-                $forSemester = 1 + $addMonths + $years * 2;
-
-                DB::table('scholarship_status')
-                        ->where('id', $row->id)
-                        ->update(['now_receiving_amount_for_semester' => $forSemester]);
-            }
-        }
-
-        return view('vendor.multiauth.admin.sendSanctionAmountToAccounts');
+        return view('vendor.multiauth.admin.Amountant');
     }
 
     public function show(Request $request) {
@@ -80,8 +27,7 @@ class sanctionAmountController extends Controller {
                         })
                         ->where('registerusers.id', 'LIKE', '%' . $query . '%')
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
-                        ->where('scholarship_status.issuing_authority_status', '=', 'pending')
-                        ->where('scholarship_status.prev_amount_received_in_semester', '!=', 'scholarship_status.now_receiving_amount_for_semester')
+                        ->where('scholarship_status.issuing_authority_status', '=', 'approved')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             } else {
@@ -90,25 +36,9 @@ class sanctionAmountController extends Controller {
                         ->join('scholarship_status', function ($join) {
                             $join->on('registerusers.id', '=', 'scholarship_status.id');
                         })
-                        ->where('scholarship_status.issuing_authority_status', '=', 'pending')
+                        ->where('scholarship_status.issuing_authority_status', '=', 'approved')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
-
-
-                /*
-                 * Simplest way to do Joins
-                 *  
-                 */
-                /*
-
-                  $data = DB::table('registerusers')
-                  ->join('scholarship_status', 'registerusers.id', '=', 'scholarship_status.id')
-                  ->orderBy('registerusers.id', 'desc')
-                  ->where('scholarship_status.issuing_authority_status', '=', 'pending')
-                  ->select('registerusers*', 'scholarship_status*')
-                  ->get();
-
-                 */
             }
 
             $total_row = $data->count();
