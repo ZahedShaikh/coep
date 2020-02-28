@@ -14,7 +14,7 @@ class sanctionAmountController extends Controller {
         $data = DB::table('registerusers')
                 ->join('scholarship_status', 'registerusers.id', '=', 'scholarship_status.id')
                 ->where('scholarship_status.issuing_authority_status', '=', 'pending')
-                //->where('scholarship_status.prev_amount_received_in_semester', '!=', 'scholarship_status.now_receiving_amount_for_semester')
+                ->where('scholarship_status.prev_amount_received_in_semester', '!=', 'scholarship_status.now_receiving_amount_for_semester')
                 ->orderBy('registerusers.id', 'desc')
                 ->select('registerusers.id', 'registerusers.yearOfAdmission')
                 ->get();
@@ -58,10 +58,10 @@ class sanctionAmountController extends Controller {
 
                 DB::table('scholarship_status')
                         ->where('id', $row->id)
-                        ->update(['now_receiving_amount_for_semester' => $forSemester]);
+                        ->update(['now_receiving_amount_for_semester' => $forSemester,
+                            'account_status' => 'pending']);
             }
         }
-
         return view('vendor.multiauth.admin.sendSanctionAmountToAccounts');
     }
 
@@ -80,7 +80,7 @@ class sanctionAmountController extends Controller {
                         ->where('registerusers.id', 'LIKE', '%' . $query . '%')
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
                         ->where('scholarship_status.issuing_authority_status', '=', 'pending')
-                        //->where('scholarship_status.prev_amount_received_in_semester', '!=', 'scholarship_status.now_receiving_amount_for_semester')
+                        ->where('scholarship_status.account_status', '=', 'pending')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             } else {
@@ -90,9 +90,9 @@ class sanctionAmountController extends Controller {
                             $join->on('registerusers.id', '=', 'scholarship_status.id');
                         })
                         ->where('scholarship_status.issuing_authority_status', '=', 'pending')
+                        ->where('scholarship_status.account_status', '=', 'pending')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
-
             }
 
             $total_row = $data->count();
@@ -151,7 +151,6 @@ class sanctionAmountController extends Controller {
         if ($request->ajax()) {
             $output = false;
             $studentID = $request->get('query');
-
             try {
                 DB::beginTransaction();
                 DB::table('amount_sanctioned_by_issuer')->insert(
@@ -169,7 +168,6 @@ class sanctionAmountController extends Controller {
                             ['id' => $studentID, 'created_at' => Carbon::now(), 'updated_at' => now()]
                     );
                 }
-
                 DB::table('scholarship_status')
                         ->where('id', $studentID)
                         ->update(['issuing_authority_status' => 'approved']);

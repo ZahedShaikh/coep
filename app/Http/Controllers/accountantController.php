@@ -27,6 +27,7 @@ class accountantController extends Controller {
                         ->where('registerusers.id', 'LIKE', '%' . $query . '%')
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
                         ->where('scholarship_status.issuing_authority_status', '=', 'approved')
+                        ->where('scholarship_status.account_status', '=', 'pending')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             } else {
@@ -36,6 +37,7 @@ class accountantController extends Controller {
                             $join->on('registerusers.id', '=', 'scholarship_status.id');
                         })
                         ->where('scholarship_status.issuing_authority_status', '=', 'approved')
+                        ->where('scholarship_status.account_status', '=', 'pending')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             }
@@ -46,7 +48,7 @@ class accountantController extends Controller {
                 foreach ($data as $row) {
 
                     $fullName = $row->name . " " . $row->middleName . " " . $row->surName;
-                    $amount = 5000; //($row->now_receiving_amount_for_semester - $row->prev_amount_received_in_semester) * 4000;
+                    $amount = ($row->now_receiving_amount_for_semester - $row->prev_amount_received_in_semester) * 4000;
 
                     $output .= '
                     <tr id=\"' . $row->id . '\">
@@ -110,9 +112,10 @@ class accountantController extends Controller {
                         ->first();
 
                 DB::table('scholarship_status')
-                        ->where('id', $studentID[0])
-                        ->update(['prev_amount_received_in_semester' => $temp->now_receiving_amount_for_semester],
-                                ['account_status' => 'approved']);
+                        ->where('id', $studentID)
+                        ->update(['prev_amount_received_in_semester' => $temp->now_receiving_amount_for_semester,
+                            'account_status' => 'pending',
+                            'issuing_authority_status' => 'pending']);
 
                 $months = date('m');
                 $addMonths = 0;
@@ -147,6 +150,7 @@ class accountantController extends Controller {
                             'updated_at' => now()]
                 );
 
+                DB::table('amount_sanctioned_by_issuer')->where('id', '=', $studentID)->delete();
                 DB::commit();
                 $output = true;
             } catch (\Exception $e) {
