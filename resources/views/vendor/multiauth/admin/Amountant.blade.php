@@ -95,7 +95,7 @@
          */
 
 
-        function assignScholarshipFunction(msg)
+        function assignScholarshipFunction(msg, amount)
         {
             $.ajaxSetup({
                 headers: {
@@ -107,7 +107,7 @@
                 url: "{{ route('creditAmountToBank') }}",
                 method: "GET",
                 contentType: "application/json; charset=utf-8",
-                data: {query: msg},
+                data: {"query": msg, "amount": amount},
                 dataType: "json",
                 success: function (data)
                 {
@@ -128,8 +128,8 @@
         }
 
         (function ($) {
-            $.fn.assign = function (msg) {
-                assignScholarshipFunction(msg);
+            $.fn.assign = function (msg,amount) {
+                assignScholarshipFunction(msg, amount);
             };
         })(jQuery);
 

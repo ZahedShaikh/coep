@@ -6,9 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
+class accountantController extends Controller {
 
-class accountantController extends Controller
-{
     public function index() {
         return view('vendor.multiauth.admin.Amountant');
     }
@@ -28,6 +27,7 @@ class accountantController extends Controller
                         ->where('registerusers.id', 'LIKE', '%' . $query . '%')
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
                         ->where('scholarship_status.issuing_authority_status', '=', 'approved')
+                        ->where('scholarship_status.account_status', '=', 'pending')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             } else {
@@ -37,6 +37,7 @@ class accountantController extends Controller
                             $join->on('registerusers.id', '=', 'scholarship_status.id');
                         })
                         ->where('scholarship_status.issuing_authority_status', '=', 'approved')
+                        ->where('scholarship_status.account_status', '=', 'pending')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             }
@@ -56,7 +57,7 @@ class accountantController extends Controller
                     <td>' . $row->college . '</td>
                     <td>' . $row->contact . '</td>
                     <td>' . $amount . "</td>
-                    <td> <a onclick=\"$(this).assign('$row->id')\" class=\"btn btn-primary align-content-md-center\">Sanction Amount</a> </td>
+                    <td> <a onclick=\"$(this).assign('$row->id, $amount')\" class=\"btn btn-primary align-content-md-center\">Sanction Amount</a> </td>
                     </tr>
                     ";
                 }
@@ -96,35 +97,65 @@ class accountantController extends Controller
 
         if ($request->ajax()) {
             $output = false;
-            $studentID = $request->get('query');
+
+            $str_arr = explode(",", trim($request->get('query')));
+            $studentID = $str_arr[0];
+            $amount = (float) $str_arr[1];
 
             try {
                 DB::beginTransaction();
-                DB::table('amount_sanctioned_by_issuer')->insert(
-                        ['id' => $studentID, "created_at" => Carbon::now(), "updated_at" => now()]
-                );
 
-                $sem = DB::table('scholarship_status')
-                        ->where('id', '=', $studentID)
-                        ->select('now_receiving_amount_for_semester')
+                $temp = DB::table('scholarship_status')
+                        ->where('scholarship_status.id', '=', $studentID)
+                        ->join('registerusers', 'scholarship_status.id', '=', 'registerusers.id')
+                        ->select('scholarship_status.now_receiving_amount_for_semester', 'registerusers.yearOfAdmission')
                         ->first();
-
-                if (intval($sem->now_receiving_amount_for_semester == 8)) {
-                    DB::table('scholarship_status')->where('id', '=', $studentID)->delete();
-                    DB::table('scholarship_tenure')->insert(
-                            ['id' => $studentID, 'created_at' => Carbon::now(), 'updated_at' => now()]
-                    );
-                }
 
                 DB::table('scholarship_status')
                         ->where('id', $studentID)
-                        ->update(['issuing_authority_status' => 'approved']);
+                        ->update(['prev_amount_received_in_semester' => $temp->now_receiving_amount_for_semester,
+                            'account_status' => 'pending',
+                            'issuing_authority_status' => 'pending']);
 
+                $months = date('m');
+                $addMonths = 0;
+                switch ($months) {
+                    case ($months >= 7 and $months <= 11):
+                        // This case for Semeseter 1
+                        $addMonths = 2;
+                        break;
+                    case ($months >= 1 and $months <= 5):
+                        // This case for Semeseter 2
+                        $addMonths = 1;
+                        break;
+                    default:
+                        // This case holidays
+                        $addMonths = 0;
+                }
+
+                // Substracting 1 since I don't wanna count current year
+                // Instead I will count $addMonths
+                $years = date("Y") - date('Y', strtotime($temp->yearOfAdmission)) - 1;
+                $forSemester = 1 + $addMonths + $years * 2;
+                $years = $years + 1;
+
+                DB::table('transaction_history')->insert(
+                        ['id' => $studentID,
+                            'dateOfTransaction' => now(),
+                            'amount' => intval($amount),
+                            'amountReceivedForYear' => $years,
+                            'amountReceivedForSemester' => $forSemester,
+                            'year' => date("Y"),
+                            'created_at' => Carbon::now(),
+                            'updated_at' => now()]
+                );
+
+                DB::table('amount_sanctioned_by_issuer')->where('id', '=', $studentID)->delete();
                 DB::commit();
                 $output = true;
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect(route('vendor.multiauth.admin.getSanctionAmount'))->with('message', 'Something went wrong');
+                return redirect(route('vendor.multiauth.admin.getAmountToBeCredit'))->with('message', 'Something went wrong');
             }
 
             echo json_encode($output);
