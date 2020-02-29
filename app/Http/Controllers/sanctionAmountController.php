@@ -17,16 +17,14 @@ class sanctionAmountController extends Controller {
                 ->orderBy('registerusers.id', 'desc')
                 ->select('registerusers.id', 'registerusers.yearOfAdmission')
                 ->get();
-        
 
         $currentYear = date("Y");
 
-        
         //check wehter records are empty or not!
         $total_row = $data->count();
         if ($total_row > 0) {
             foreach ($data as $row) {
-                
+
 
                 $months = date('m');
                 $addMonths = 0;
@@ -47,7 +45,7 @@ class sanctionAmountController extends Controller {
                 // Substracting 1 since I don't wanna count current year
                 // Instead I will count $addMonths
                 $years = $currentYear - date('Y', strtotime($row->yearOfAdmission)) - 1;
-                
+
                 /*
                  * Logic
                  * 1 = is added because current semester is 1
@@ -57,7 +55,7 @@ class sanctionAmountController extends Controller {
                  */
 
                 $forSemester = 1 + $addMonths + $years * 2;
-                
+
                 DB::table('scholarship_status')
                         ->where('id', $row->id)
                         ->update(['now_receiving_amount_for_semester' => $forSemester]);
@@ -80,15 +78,14 @@ class sanctionAmountController extends Controller {
                         ->where('registerusers.id', 'LIKE', '%' . $query . '%')
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
                         ->where('scholarship_status.in_process_with', '=', 'issuer')
-                        ->where('scholarship_status.prev_amount_received_in_semester', '<>', 'scholarship_status.now_receiving_amount_for_semester')
+                        ->where('scholarship_status.prev_amount_received_in_semester', '!=', 'scholarship_status.now_receiving_amount_for_semester')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             } else {
-
                 $data = DB::table('registerusers')
-                        ->join('scholarship_status AS S1', 'registerusers.id', '=', 'S1.id')
-                        ->where('scholarship_status.in_process_with', '=', 'issuer')
-                        ->join('scholarship_status AS S2', 'S1.id', '=', 'S2.id')
+                        ->join('scholarship_status AS s1', 'registerusers.id', '=', 'S1.id')
+                        ->join('scholarship_status AS S2', 'registerusers.id', '=', 'S2.id')
+                        ->where('S1.in_process_with', '=', 'issuer')
                         ->where('S1.prev_amount_received_in_semester', '!=', 'S2.now_receiving_amount_for_semester')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();

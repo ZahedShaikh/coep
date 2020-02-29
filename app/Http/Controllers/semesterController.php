@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\semesterMarks;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class semesterController extends Controller {
 
@@ -161,9 +162,7 @@ class semesterController extends Controller {
 
             return redirect(route('home'))->with('message', 'Marks updated successfully');
         } else {
-            $task->semester_marks_updated = 'no';
-            $task->fill($input)->save();
-            return redirect(route('home'))->with('message', 'Marks updated with error. Add your all semester marks');
+            return redirect(route('home'))->withErrors('Error While Updating your marks');
         }
     }
 

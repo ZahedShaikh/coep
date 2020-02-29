@@ -28,7 +28,7 @@ class RegisterController extends Controller {
                     'surName' => ['required', 'string', 'max:255'],
                     'gender' => ['required'],
                     'yearOfAdmission' => ['required', 'string', 'max:255'],
-                    'contact' => ['required', 'string', 'max:10'],
+                    'contact' => ['required', 'digits:10', 'min:10'],
                     'college' => ['required'],
                     'email' => ['required', 'string', 'email', 'max:255', 'unique:registerusers'],
                     'password' => ['required', 'string', 'min:6', 'confirmed'],

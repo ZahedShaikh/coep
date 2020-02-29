@@ -6,7 +6,7 @@ use App\registeruser;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Validator;
 
 class userupdateController extends Controller {
 
@@ -43,8 +43,16 @@ class userupdateController extends Controller {
 
     public function update(Request $request, registeruser $registeruser) {
 
+        Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+                    'surName' => ['required', 'string', 'max:255'],
+                    'gender' => ['required'],
+                    'contact' => ['required', 'digits:10', 'min:10'],
+                    'college' => ['required'],
+        ])->validate();
+
         $task = registeruser::findOrFail(Auth::user()->id);
-        
+
         $input = $request->all();
         $task->fill($input)->save();
         return redirect(route('home'))->with('message', 'Your information is updated successfully');
