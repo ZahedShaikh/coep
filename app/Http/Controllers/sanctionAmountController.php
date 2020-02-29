@@ -56,6 +56,62 @@ class sanctionAmountController extends Controller {
 
                 $forSemester = 1 + $addMonths + $years * 2;
 
+
+                $semester_marks = DB::table('semester_marks')
+                        ->where('semester_marks.id', $row->id)
+                        ->join('scholarship_status', 'semester_marks.id', '=', 'scholarship_status.id')
+                        ->where('scholarship_status.in_process_with', '=', 'issuer')
+                        ->select('semester1', 'semester2', 'semester3', 'semester4', 'semester5', 'semester6', 'semester1', 'semester7')
+                        ->first();
+
+                $flg = false;
+
+                switch ($forSemester) {
+                    case 1:
+                        if (($semester_marks->semester1) != null) {
+                            $flg = true;
+                        }
+                        break;
+                    case 2:
+                        if (($semester_marks->semester2) != null) {
+                            $flg = true;
+                        }
+                        break;
+                    case 3:
+                        if (($semester_marks->semester3) != null) {
+                            $flg = true;
+                        }
+                        break;
+                    case 4:
+                        if (($semester_marks->semester4) != null) {
+                            $flg = true;
+                        }
+                        break;
+                    case 5:
+                        if (($semester_marks->semester5) != null) {
+                            $flg = true;
+                        }
+                        break;
+                    case 6:
+                        if (($semester_marks->semester6) != null) {
+                            $flg = true;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+                if ($flg) {
+                    DB::table('semester_marks')
+                            ->where('id', $row->id)
+                            ->update(['semester_marks_updated' => 'yes']);
+                } else {
+                    DB::table('semester_marks')
+                            ->where('id', $row->id)
+                            ->update(['semester_marks_updated' => 'no']);
+                }
+
                 DB::table('scholarship_status')
                         ->where('id', $row->id)
                         ->update(['now_receiving_amount_for_semester' => $forSemester]);
@@ -78,6 +134,8 @@ class sanctionAmountController extends Controller {
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
                         ->join('scholarship_status AS s1', 'registerusers.id', '=', 'S1.id')
                         ->join('scholarship_status AS S2', 'registerusers.id', '=', 'S2.id')
+                        ->join('semester_marks', 'semester_marks.id', '=', 'registerusers.id')
+                        ->where('semester_marks.semester_marks_updated', '=', 'yes')
                         ->where('S1.in_process_with', '=', 'issuer')
                         ->where('S1.prev_amount_received_in_semester', '!=', 'S2.now_receiving_amount_for_semester')
                         ->orderBy('registerusers.id', 'desc')
@@ -86,6 +144,8 @@ class sanctionAmountController extends Controller {
                 $data = DB::table('registerusers')
                         ->join('scholarship_status AS s1', 'registerusers.id', '=', 'S1.id')
                         ->join('scholarship_status AS S2', 'registerusers.id', '=', 'S2.id')
+                        ->join('semester_marks', 'semester_marks.id', '=', 'registerusers.id')
+                        ->where('semester_marks.semester_marks_updated', '=', 'yes')
                         ->where('S1.in_process_with', '=', 'issuer')
                         ->where('S1.prev_amount_received_in_semester', '!=', 'S2.now_receiving_amount_for_semester')
                         ->orderBy('registerusers.id', 'desc')
