@@ -63,7 +63,7 @@ class RegisterController extends Controller {
             BankDetails::create([
                 'id' => $id,
             ]);
-            
+
             scholarship_applicants::create([
                 'id' => $id,
             ]);
@@ -73,7 +73,8 @@ class RegisterController extends Controller {
             return $user;
         } catch (\Exception $e) {
             DB::rollback();
-            return view('auth.login');
+            return false;
+            //return view('auth.login');
         }
     }
 
