@@ -1,6 +1,6 @@
 <?php
 
-    Route::GET('/home', 'AdminController@index')->name('admin.home');
+//    Route::GET('/home', 'AdminController@index')->name('admin.home');
     
     // Login and Logout
     Route::GET('/', 'LoginController@showLoginForm')->name('admin.login');

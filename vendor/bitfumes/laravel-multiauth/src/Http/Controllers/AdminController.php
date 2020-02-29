@@ -28,15 +28,18 @@ class AdminController extends Controller {
         /*
          * Role id [assigned as $num]
          * 1: Super Admin User
-         * 2: Vendor Admin User
+         * 2: Accountant 
+         * 3: Vendor Admin User
          */
         
         if ($num == '1') {
             return view('multiauth::admin.home');
         } else if ($num == '2') {
+            return view('multiauth::accountant.home');
+        } else if ($num == '3') {
             return view('multiauth::vendor.home');
         } else {
-            return view('multiauth::admin.home');
+            return view('multiauth::vendor.home');
         }
     }
 

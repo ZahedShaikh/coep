@@ -26,23 +26,7 @@
                             <a href="{{ route('getSanctionAmount') }}" class="btn btn-group-toggle btn-primary mr-3">Sanction</a>
                         </li>
                     </div>
-
-                    
-                    <!--
-                    Temporary button for accountancy's. 
-                    !-->
-                    
-                    <div class="float-right">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <label for="getAmountToBeCredit" class="col-md-6 col-form-label text-md-right">{{ __('Scholarship Credited') }}</label>
-                            <a href="{{ route('getAmountToBeCredit') }}" class="btn btn-group-toggle btn-primary mr-3">Sanction</a>
-                        </li>
-                    </div>
-
-                    
-                    
-                    
-                    
+ 
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <label for="displayStudentDetails" class="col-md-6 col-form-label text-md-right">{{ __('Display Student Details') }}</label>
