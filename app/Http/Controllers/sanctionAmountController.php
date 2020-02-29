@@ -74,11 +74,12 @@ class sanctionAmountController extends Controller {
             if ($query != '') {
 
                 $data = DB::table('registerusers')
-                        ->join('scholarship_status', 'registerusers.id', '=', 'scholarship_status.id')
                         ->where('registerusers.id', 'LIKE', '%' . $query . '%')
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
-                        ->where('scholarship_status.in_process_with', '=', 'issuer')
-                        ->where('scholarship_status.prev_amount_received_in_semester', '!=', 'scholarship_status.now_receiving_amount_for_semester')
+                        ->join('scholarship_status AS s1', 'registerusers.id', '=', 'S1.id')
+                        ->join('scholarship_status AS S2', 'registerusers.id', '=', 'S2.id')
+                        ->where('S1.in_process_with', '=', 'issuer')
+                        ->where('S1.prev_amount_received_in_semester', '!=', 'S2.now_receiving_amount_for_semester')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             } else {
@@ -98,7 +99,9 @@ class sanctionAmountController extends Controller {
 
                     $fullName = $row->name . " " . $row->middleName . " " . $row->surName;
                     $amount = ($row->now_receiving_amount_for_semester - $row->prev_amount_received_in_semester) * 4000;
-
+                    if ($amount == 0) {
+                        continue;
+                    }
                     $output .= '
                     <tr id=\"' . $row->id . '\">
                     <td align=\'center\'>' . $row->id . '</td>
