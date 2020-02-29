@@ -62,7 +62,7 @@ class accountantController extends Controller {
             } else {
                 $output = '
             <tr>
-            <td align="center" colspan="5">No Data Found</td>
+            <td align="center" colspan="6">No Data Found</td>
             </tr>
             ';
             }

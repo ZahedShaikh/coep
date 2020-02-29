@@ -146,6 +146,8 @@ class sanctionAmountController extends Controller {
                         ->join('scholarship_status AS S2', 'registerusers.id', '=', 'S2.id')
                         ->join('semester_marks', 'semester_marks.id', '=', 'registerusers.id')
                         ->where('semester_marks.semester_marks_updated', '=', 'yes')
+                        ->join('bank_details', 'bank_details.id', '=', 'registerusers.id')
+                        ->where('bank_details.bank_details_updated', '=', 'yes')
                         ->where('S1.in_process_with', '=', 'issuer')
                         ->where('S1.prev_amount_received_in_semester', '!=', 'S2.now_receiving_amount_for_semester')
                         ->orderBy('registerusers.id', 'desc')
@@ -176,7 +178,7 @@ class sanctionAmountController extends Controller {
             } else {
                 $output = '
             <tr>
-            <td align="center" colspan="5">No Data Found</td>
+            <td align="center" colspan="6">No Data Found</td>
             </tr>
             ';
             }
