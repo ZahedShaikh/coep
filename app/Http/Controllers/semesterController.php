@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Auth;
 use App\semesterMarks;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 
 class semesterController extends Controller {
 
@@ -131,35 +130,60 @@ class semesterController extends Controller {
         $CGPA = $sum / $count;
         $task->CGPA = $CGPA;
 
+        // Calculating Semeseter
 
-        $date1 = DB::table('registerusers')
-                        ->select('yearOfAdmission')
-                        ->where('id', Auth::user()->id)->first();
-        $dateOfAdmit = strtotime($date1->yearOfAdmission);
+        $data = DB::table('registerusers')
+                ->join('scholarship_status', 'registerusers.id', '=', 'scholarship_status.id')
+                ->where('scholarship_status.in_process_with', '=', 'issuer')
+                ->where('scholarship_status.prev_amount_received_in_semester', '<>', 'scholarship_status.now_receiving_amount_for_semester')
+                ->orderBy('registerusers.id', 'desc')
+                ->select('registerusers.id', 'registerusers.yearOfAdmission')
+                ->get();
 
-        $now = date('Y-m-d');
-        $todaysDate = strtotime($now);
+        $currentYear = date("Y");
+        $forSemester = 0;
 
-        $diff = ( $todaysDate - $dateOfAdmit ) / ( 86400 );
-
-        /*
-         * 11510640000  = seconds to convert seconds into 'year' i.e. 1 year
-         * 86400        = seconds to convert seconds into 'semester' i.e. 6th months
-         */
+        //check wehter records are empty or not!
+        $total_row = $data->count();
+        if ($total_row > 0) {
+            foreach ($data as $row) {
 
 
-        $monthDiff = floor(floor($diff / 30.5) / 36);
+                $months = date('m');
+                $addMonths = 0;
+                switch ($months) {
+                    case ($months >= 7 and $months <= 11):
+                        // This case for Semeseter 1
+                        $addMonths = 2;
+                        break;
+                    case ($months >= 1 and $months <= 5):
+                        // This case for Semeseter 2
+                        $addMonths = 1;
+                        break;
+                    default:
+                        // This case holidays
+                        $addMonths = 0;
+                }
 
-        if ($count >= $monthDiff) {
+                // Substracting 1 since I don't wanna count current year
+                // Instead I will count $addMonths
+                $years = $currentYear - date('Y', strtotime($row->yearOfAdmission)) - 1;
+
+                /*
+                 * Logic
+                 * 1 = is added because current semester is 1
+                 * $addMonths = is for adding current years semster
+                 * $year = is twice since it have 2 semester
+                 * 
+                 */
+
+                $forSemester = 1 + $addMonths + $years * 2;
+            }
+        }
+
+        if ($count <= $forSemester and $count >= $forSemester - 1) {
             $task->semester_marks_updated = 'yes';
             $task->fill($input)->save();
-
-            // This line has be cheacked, so commneting now
-            /*
-              $now = $now + 86400;
-              $task->marks_validity = $now->format('m-d-Y');
-             */
-
             return redirect(route('home'))->with('message', 'Marks updated successfully');
         } else {
             return redirect(route('home'))->withErrors('Error While Updating your marks');
