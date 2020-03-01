@@ -142,6 +142,7 @@ class ComposerStaticInita566d6082d898dbb4f31a2986066413a
         ),
         'A' => 
         array (
+            'ArielMejiaDev\\LarapexCharts\\' => 28,
             'App\\' => 4,
         ),
     );
@@ -377,6 +378,10 @@ class ComposerStaticInita566d6082d898dbb4f31a2986066413a
         array (
             0 => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src',
         ),
+        'ArielMejiaDev\\LarapexCharts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/arielmejiadev/larapex-charts/src',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
@@ -411,11 +416,13 @@ class ComposerStaticInita566d6082d898dbb4f31a2986066413a
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\BankUserController' => __DIR__ . '/../..' . '/app/Http/Controllers/BankUserController.php',
+        'App\\Http\\Controllers\\Charts' => __DIR__ . '/../..' . '/app/Http/Controllers/Charts.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\LiveSearch' => __DIR__ . '/../..' . '/app/Http/Controllers/LiveSearch.php',
         'App\\Http\\Controllers\\ProfilePrintController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProfilePrintController.php',
         'App\\Http\\Controllers\\accountantController' => __DIR__ . '/../..' . '/app/Http/Controllers/accountantController.php',
+        'App\\Http\\Controllers\\displayAllStudentsDetails' => __DIR__ . '/../..' . '/app/Http/Controllers/displayAllStudentsDetails.php',
         'App\\Http\\Controllers\\newApplicationsController' => __DIR__ . '/../..' . '/app/Http/Controllers/newApplicationsController.php',
         'App\\Http\\Controllers\\sanctionAmountController' => __DIR__ . '/../..' . '/app/Http/Controllers/sanctionAmountController.php',
         'App\\Http\\Controllers\\semesterController' => __DIR__ . '/../..' . '/app/Http/Controllers/semesterController.php',
@@ -442,6 +449,8 @@ class ComposerStaticInita566d6082d898dbb4f31a2986066413a
         'App\\scholarship_tenure' => __DIR__ . '/../..' . '/app/scholarship_tenure.php',
         'App\\semesterMarks' => __DIR__ . '/../..' . '/app/semesterMarks.php',
         'App\\transaction_history' => __DIR__ . '/../..' . '/app/transaction_history.php',
+        'ArielMejiaDev\\LarapexCharts\\LarapexChart' => __DIR__ . '/..' . '/arielmejiadev/larapex-charts/src/LarapexChart.php',
+        'ArielMejiaDev\\LarapexCharts\\LarapexChartsServiceProvider' => __DIR__ . '/..' . '/arielmejiadev/larapex-charts/src/LarapexChartsServiceProvider.php',
         'BeyondCode\\DumpServer\\DumpServerCommand' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',
         'BeyondCode\\DumpServer\\DumpServerServiceProvider' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerServiceProvider.php',
         'BeyondCode\\DumpServer\\Dumper' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/Dumper.php',

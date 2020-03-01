@@ -53,6 +53,18 @@ Route::get('/showAllStudentsDetails', 'displayAllStudentsDetails@show')->name('s
 /*
  *  Temp URL to be remove later
  */
+
+
+Route::get('/chart', 'Charts@index')->name('chart');
+
+//Route::get('chart', function(){
+//    $chart = new LarapexChart();
+//    $chart->setTitle('Users')->setXAxis(['Active', 'Guests'])->setDataset([100, 200]);
+//});
+
+
+
+
 Route::resource('ajax-crud', 'AjaxController');
 //https://www.tutsmake.com/laravel-5-7-create-first-ajax-crud-application/
 Route::get('/live_search', 'LiveSearch@index')->name('live_search');
