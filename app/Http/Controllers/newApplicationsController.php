@@ -35,6 +35,8 @@ class newApplicationsController extends Controller {
                 $data = DB::table('registerusers')->join('scholarship_applicants', function ($join) {
                             $join->on('registerusers.id', '=', 'scholarship_applicants.id');
                         })
+                        ->join('bank_details', 'bank_details.id', '=', 'registerusers.id')
+                        ->where('bank_details.bank_details_updated', '=', 'yes')
                         ->where('registerusers.id', 'LIKE', '%' . $query . '%')
                         ->orWhere('registerusers.name', 'LIKE', '%' . $query . '%')
                         ->orderBy('registerusers.id', 'desc')
@@ -44,6 +46,8 @@ class newApplicationsController extends Controller {
                         ->join('scholarship_applicants', function ($join) {
                             $join->on('registerusers.id', '=', 'scholarship_applicants.id');
                         })
+                        ->join('bank_details', 'bank_details.id', '=', 'registerusers.id')
+                        ->where('bank_details.bank_details_updated', '=', 'yes')
                         ->orderBy('registerusers.id', 'desc')
                         ->get();
             }
