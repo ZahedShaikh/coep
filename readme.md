@@ -13,7 +13,7 @@ This Project is ment to help college faculties for managing and monitoring schol
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Jahed Shaikh
 
 ## Security Vulnerabilities
 
