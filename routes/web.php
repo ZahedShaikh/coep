@@ -45,9 +45,6 @@ Route::get('/showAmountToBeCredit', 'accountantController@show')->name('showAmou
 Route::get('/creditAmountToBank', 'accountantController@send')->name('creditAmountToBank');
 Route::get('/creditEveryoneAmountToBank', 'accountantController@sanction')->name('creditEveryoneAmountToBank');
 
-
-Route::GET('/home', 'AdminController@index')->name('admin.home');
-
 /*
  *  Temp URL to be remove later
  */
