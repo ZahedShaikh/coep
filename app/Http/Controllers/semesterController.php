@@ -42,7 +42,8 @@ class semesterController extends Controller {
 
     public function update(Request $request, semesterMarks $semesterMarks) {
 
-        $task = semesterMarks::findOrFail(Auth::user()->id);
+        $StudentId = Auth::user()->id;
+        $task = semesterMarks::findOrFail($StudentId);
 
         $this->validate($request, [
             'semester1' => 'nullable|numeric|digits_between:0,2',
@@ -133,52 +134,36 @@ class semesterController extends Controller {
         // Calculating Semeseter
 
         $data = DB::table('registerusers')
-                ->join('scholarship_status', 'registerusers.id', '=', 'scholarship_status.id')
-                ->where('scholarship_status.in_process_with', '=', 'issuer')
-                ->where('scholarship_status.prev_amount_received_in_semester', '<>', 'scholarship_status.now_receiving_amount_for_semester')
-                ->orderBy('registerusers.id', 'desc')
-                ->select('registerusers.id', 'registerusers.yearOfAdmission')
-                ->get();
+                ->where('id', '=', $StudentId)
+                ->select('id', 'yearOfAdmission')
+                ->first();
 
         $currentYear = date("Y");
         $forSemester = 0;
 
-        //check wehter records are empty or not!
-        $total_row = $data->count();
-        if ($total_row > 0) {
-            foreach ($data as $row) {
+        if ($data != null) {
 
-
-                $months = date('m');
-                $addMonths = 0;
-                switch ($months) {
-                    case ($months >= 7 and $months <= 11):
-                        // This case for Semeseter 1
-                        $addMonths = 2;
-                        break;
-                    case ($months >= 1 and $months <= 5):
-                        // This case for Semeseter 2
-                        $addMonths = 1;
-                        break;
-                    default:
-                        // This case holidays
-                        $addMonths = 0;
-                }
-
-                // Substracting 1 since I don't wanna count current year
-                // Instead I will count $addMonths
-                $years = $currentYear - date('Y', strtotime($row->yearOfAdmission)) - 1;
-
-                /*
-                 * Logic
-                 * 1 = is added because current semester is 1
-                 * $addMonths = is for adding current years semster
-                 * $year = is twice since it have 2 semester
-                 * 
-                 */
-
-                $forSemester = 1 + $addMonths + $years * 2;
+            $months = date('m');
+            $addMonths = 0;
+            switch ($months) {
+                case ($months >= 7 and $months <= 11):
+                    // This case for Semeseter 1
+                    $addMonths = 2;
+                    break;
+                case ($months >= 1 and $months <= 5):
+                    // This case for Semeseter 2
+                    $addMonths = 1;
+                    break;
+                default:
+                    // This case holidays
+                    $addMonths = 0;
             }
+
+            // Substracting 1 since I don't wanna count current year
+            // Instead I will count $addMonths
+            $years = $currentYear - date('Y', strtotime($data->yearOfAdmission)) - 1;
+
+            $forSemester = 1 + $addMonths + $years * 2;
         }
 
         if ($count <= $forSemester and $count >= $forSemester - 1) {
