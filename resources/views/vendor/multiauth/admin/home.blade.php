@@ -29,8 +29,8 @@
  
                     <div class="float-right">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <label for="displayStudentDetails" class="col-md-6 col-form-label text-md-right">{{ __('Display Student Details') }}</label>
-                            <a href="{{ route('getNewApplications') }}" class="btn btn-group-toggle btn-primary mr-3">Show</a>
+                            <label for="displayStudentDetails" class="col-md-6 col-form-label text-md-right">{{ __('Display All Student Details') }}</label>
+                            <a href="{{ route('getAllStudentsDetails') }}" class="btn btn-group-toggle btn-primary mr-3">Show</a>
                         </li>
                     </div>
                     

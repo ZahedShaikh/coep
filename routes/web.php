@@ -45,6 +45,11 @@ Route::get('/showAmountToBeCredit', 'accountantController@show')->name('showAmou
 Route::get('/creditAmountToBank', 'accountantController@send')->name('creditAmountToBank');
 Route::get('/creditEveryoneAmountToBank', 'accountantController@sanction')->name('creditEveryoneAmountToBank');
 
+//  Here Accountant will credit all amount to stduents account
+Route::get('/getAllStudentsDetails', 'displayAllStudentsDetails@index')->name('getAllStudentsDetails');
+Route::get('/showAllStudentsDetails', 'displayAllStudentsDetails@show')->name('showAllStudentsDetails');
+
+
 /*
  *  Temp URL to be remove later
  */
